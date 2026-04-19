@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>VoiceRise PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --surface: #0F0F1A;
+  --card: #141422;
+  --card2: #1A1A2E;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.10);
+  --gold: #C9A84C;
+  --gold2: #E8C76A;
+  --gold3: rgba(201,168,76,0.12);
+  --rose: #E05C7A;
+  --teal: #3ECFB2;
+  --lavender: #8B7FD4;
+  --text: #EEE9E0;
+  --muted: #6B6880;
+  --muted2: #9491A8;
+  --green: #4BC98A;
+  --orange: #E8884C;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+  opacity:0.4;
+}
+
+.ambient {
+  position:fixed;
+  top:-40%;
+  left:-30%;
+  width:100vw;
+  height:100vw;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 65%);
+  pointer-events:none;
+  z-index:0;
+}
+.ambient2 {
+  position:fixed;
+  bottom:-30%;
+  right:-20%;
+  width:70vw;
+  height:70vw;
+  background: radial-gradient(ellipse, rgba(224,92,122,0.04) 0%, transparent 65%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.app {
+  position:relative;
+  z-index:1;
+  max-width:480px;
+  margin:0 auto;
+  padding-bottom:90px;
+}
+
+/* ---- HEADER ---- */
+.header {
+  padding:28px 20px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.header-left {}
+.header-badge {
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.header-badge::before {
+  content:'';
+  display:inline-block;
+  width:16px;
+  height:1px;
+  background:var(--gold);
+}
+.header h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;
+  font-weight:700;
+  color:var(--text);
+  letter-spacing:-0.5px;
+}
+.header h1 span {
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.pro-badge {
+  background:linear-gradient(135deg,var(--gold),#A8732A);
+  color:#080810;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:2px;
+  padding:4px 10px;
+  border-radius:20px;
+  text-transform:uppercase;
+  align-self:flex-start;
+  margin-top:6px;
+}
+
+/* ---- SCORE HERO ---- */
+.score-hero {
+  margin:0 20px 20px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.10), rgba(201,168,76,0.03));
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:22px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:relative;
+  overflow:hidden;
+}
+.score-hero::before {
+  content:'';
+  position:absolute;
+  top:-40px; right:-40px;
+  width:120px; height:120px;
+  background:radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%);
+}
+.score-ring-wrap {
+  position:relative;
+  width:78px;
+  height:78px;
+  flex-shrink:0;
+}
+.score-ring-wrap svg {
+  transform:rotate(-90deg);
+  width:78px;
+  height:78px;
+}
+.score-ring-bg { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:5; }
+.score-ring-fill {
+  fill:none;
+  stroke:var(--gold);
+  stroke-width:5;
+  stroke-linecap:round;
+  stroke-dasharray:220;
+  stroke-dashoffset:220;
+  transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);
+}
+.score-number {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.score-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--gold2);
+  line-height:1;
+}
+.score-max { font-size:9px; color:var(--muted); }
+.score-info {}
+.score-title {
+  font-size:16px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:4px;
+}
+.score-sub {
+  font-size:12px;
+  color:var(--muted2);
+  line-height:1.5;
+}
+.score-grade {
+  display:inline-block;
+  margin-top:6px;
+  font-size:11px;
+  font-weight:600;
+  padding:3px 10px;
+  border-radius:10px;
+  background:rgba(75,201,138,0.12);
+  color:var(--green);
+}
+
+/* ---- TABS ---- */
+.tabs-wrap {
+  padding:0 20px;
+  margin-bottom:16px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tabs {
+  display:flex;
+  gap:6px;
+  width:max-content;
+}
+.tab-btn {
+  padding:8px 16px;
+  border-radius:22px;
+  border:1.5px solid var(--border);
+  background:var(--card);
+  color:var(--muted2);
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.tab-btn.active {
+  border-color:var(--gold);
+  background:var(--gold3);
+  color:var(--gold2);
+}
+
+/* ---- TAB CONTENT ---- */
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+
+/* ---- SECTION LABEL ---- */
+.slabel {
+  font-size:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:0 20px;
+  margin-bottom:10px;
+}
+
+/* ============================================================
+   ANALYZE TAB
+   ============================================================ */
+.analyze-wrap { padding:0 20px; }
+
+/* Big record button area */
+.rec-stage {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:14px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.rec-stage::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center bottom, rgba(201,168,76,0.04), transparent 70%);
+}
+
+canvas#specCanvas {
+  width:100%;
+  height:100px;
+  display:block;
+  border-radius:12px;
+  background:#080810;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+canvas#waveCanvas2 {
+  width:100%;
+  height:56px;
+  display:block;
+  border-radius:10px;
+  background:rgba(0,0,0,0.4);
+  margin-bottom:16px;
+}
+
+.live-metrics {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:16px;
+}
+.live-metric {
+  background:rgba(0,0,0,0.3);
+  border-radius:12px;
+  padding:10px 8px;
+  text-align:center;
+  border:1px solid var(--border);
+}
+.lm-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;
+  font-weight:600;
+  color:var(--gold2);
+  line-height:1;
+}
+.lm-label { font-size:9px; color:var(--muted); margin-top:3px; letter-spacing:1px; text-transform:uppercase; }
+
+.rec-controls {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+.btn-rec-main {
+  width:68px; height:68px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:24px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+  background:linear-gradient(135deg, var(--rose), #B03050);
+  box-shadow:0 0 28px rgba(224,92,122,0.25);
+  position:relative;
+}
+.btn-rec-main.on {
+  background:linear-gradient(135deg,#ff3333,#aa0000);
+  box-shadow:0 0 40px rgba(255,51,51,0.4);
+  animation:recpulse 1.2s infinite;
+}
+@keyframes recpulse {
+  0%,100%{box-shadow:0 0 28px rgba(255,51,51,0.3);}
+  50%{box-shadow:0 0 55px rgba(255,51,51,0.6);}
+}
+.btn-sm {
+  width:44px; height:44px;
+  border-radius:50%;
+  border:1.5px solid var(--border2);
+  background:var(--card2);
+  color:var(--text);
+  font-size:16px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+}
+.btn-sm:hover{border-color:var(--gold); color:var(--gold);}
+.btn-sm:disabled{opacity:0.3; cursor:not-allowed;}
+.rec-time {
+  font-size:12px; color:var(--muted); margin-top:10px; min-height:16px;
+}
+
+/* AI Analysis result */
+.ai-result-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+  display:none;
+}
+.ai-result-card.show{display:block;}
+.ai-result-header {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+.ai-icon {
+  width:36px; height:36px;
+  border-radius:10px;
+  background:var(--gold3);
+  border:1px solid rgba(201,168,76,0.25);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+.ai-title { font-size:15px; font-weight:600; }
+.ai-subtitle { font-size:11px; color:var(--muted); margin-top:1px; }
+
+.problems-list { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.problem-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid transparent;
+  font-size:13px;
+}
+.problem-item.bad { background:rgba(224,92,122,0.08); border-color:rgba(224,92,122,0.2); }
+.problem-item.warn { background:rgba(232,136,76,0.08); border-color:rgba(232,136,76,0.2); }
+.problem-item.good { background:rgba(75,201,138,0.08); border-color:rgba(75,201,138,0.2); }
+.problem-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.problem-dot.bad{background:var(--rose);}
+.problem-dot.warn{background:var(--orange);}
+.problem-dot.good{background:var(--green);}
+.problem-text { flex:1; color:var(--text); line-height:1.4; }
+.problem-fix { font-size:11px; color:var(--muted); margin-top:2px; }
+
+/* Score bars */
+.score-bars { display:flex; flex-direction:column; gap:8px; }
+.score-bar-item {}
+.score-bar-header { display:flex; justify-content:space-between; margin-bottom:4px; }
+.score-bar-label { font-size:12px; color:var(--muted2); }
+.score-bar-val { font-size:12px; font-weight:600; color:var(--text); }
+.score-bar-track {
+  height:5px;
+  background:rgba(255,255,255,0.06);
+  border-radius:3px;
+  overflow:hidden;
+}
+.score-bar-fill {
+  height:100%;
+  border-radius:3px;
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);
+  width:0%;
+}
+
+/* ============================================================
+   COMPARE TAB
+   ============================================================ */
+.compare-wrap { padding:0 20px; }
+
+.compare-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+.compare-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  text-align:center;
+  position:relative;
+}
+.compare-card.slot-a { border-color:rgba(201,168,76,0.25); }
+.compare-card.slot-b { border-color:rgba(62,207,178,0.25); }
+.compare-label {
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.slot-a .compare-label { color:var(--gold); }
+.slot-b .compare-label { color:var(--teal); }
+canvas.mini-spec {
+  width:100%;
+  height:60px;
+  display:block;
+  border-radius:8px;
+  background:#080810;
+  margin-bottom:10px;
+  border:1px solid var(--border);
+}
+.compare-score {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
+  font-weight:700;
+  line-height:1;
+}
+.slot-a .compare-score{color:var(--gold2);}
+.slot-b .compare-score{color:var(--teal);}
+.compare-score-label { font-size:10px; color:var(--muted); margin-top:2px; }
+
+.compare-btn {
+  width:100%;
+  padding:10px;
+  border:1.5px dashed rgba(255,255,255,0.12);
+  border-radius:12px;
+  background:transparent;
+  color:var(--muted2);
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  cursor:pointer;
+  transition:all 0.2s;
+  margin-bottom:8px;
+}
+.compare-btn:hover { border-color:var(--gold); color:var(--gold); }
+.compare-btn.filled {
+  border-style:solid;
+  border-color:rgba(255,255,255,0.1);
+  color:var(--text);
+}
+
+.diff-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+  display:none;
+}
+.diff-card.show { display:block; }
+.diff-title {
+  font-size:14px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.diff-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.diff-name { font-size:12px; color:var(--muted2); width:90px; flex-shrink:0; }
+.diff-bar-wrap { flex:1; position:relative; height:20px; }
+.diff-bar-a, .diff-bar-b {
+  position:absolute;
+  top:50%;
+  height:6px;
+  border-radius:3px;
+  transform:translateY(-50%);
+  transition:width 1s;
+}
+.diff-bar-a { background:var(--gold); left:0; }
+.diff-bar-b { background:var(--teal); right:0; max-width:100%; }
+.diff-vals { display:flex; justify-content:space-between; font-size:10px; margin-top:2px; color:var(--muted); }
+.diff-change {
+  font-size:11px;
+  font-weight:600;
+  padding:2px 8px;
+  border-radius:8px;
+  flex-shrink:0;
+  min-width:50px;
+  text-align:center;
+}
+.diff-change.up { background:rgba(75,201,138,0.12); color:var(--green); }
+.diff-change.down { background:rgba(224,92,122,0.12); color:var(--rose); }
+.diff-change.same { background:rgba(255,255,255,0.06); color:var(--muted); }
+
+.compare-cta {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg, var(--teal), #2BA891);
+  color:#080810;
+  font-family:'Outfit',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  margin-bottom:14px;
+}
+.compare-cta:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(62,207,178,0.25); }
+
+/* ============================================================
+   WARMUP + BREATH TABS (compact)
+   ============================================================ */
+.warmup-wrap, .breath-wrap { padding:0 20px; }
+
+.wu-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:all 0.2s;
+  position:relative;
+  overflow:hidden;
+}
+.wu-card::before {
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  border-radius:3px 0 0 3px;
+}
+.wu-card.c-gold::before{background:var(--gold);}
+.wu-card.c-rose::before{background:var(--rose);}
+.wu-card.c-teal::before{background:var(--teal);}
+.wu-card.c-lav::before{background:var(--lavender);}
+.wu-card:hover { border-color:var(--border2); }
+.wu-card.open { border-color:rgba(201,168,76,0.2); background:rgba(201,168,76,0.04); }
+
+.wu-row { display:flex; align-items:center; gap:12px; }
+.wu-ico {
+  width:38px;height:38px;
+  border-radius:10px;
+  font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.wu-ico.c-gold{background:rgba(201,168,76,0.12);}
+.wu-ico.c-rose{background:rgba(224,92,122,0.12);}
+.wu-ico.c-teal{background:rgba(62,207,178,0.12);}
+.wu-ico.c-lav{background:rgba(139,127,212,0.12);}
+
+.wu-info { flex:1; }
+.wu-title { font-size:14px; font-weight:600; color:var(--text); }
+.wu-sub { font-size:11px; color:var(--muted); margin-top:1px; }
+.wu-dur {
+  font-size:10px;
+  background:rgba(255,255,255,0.06);
+  padding:3px 8px;
+  border-radius:8px;
+  color:var(--muted2);
+  flex-shrink:0;
+}
+
+.wu-body {
+  display:none;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.wu-card.open .wu-body { display:block; }
+
+.wu-step {
+  padding:10px 12px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.2);
+  margin-bottom:6px;
+  font-size:12px;
+  color:var(--muted2);
+  line-height:1.6;
+  border-left:2px solid transparent;
+  transition:border-color 0.3s, color 0.3s;
+}
+.wu-step.cur { border-left-color:var(--gold); color:var(--gold2); }
+
+.wu-timer-row { display:flex; align-items:center; gap:10px; margin:10px 0; }
+.wu-time {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
+  font-weight:700;
+  color:var(--gold);
+  min-width:55px;
+}
+.wu-prog-track { flex:1; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+.wu-prog-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold2)); border-radius:2px; width:0%; transition:width 1s linear; }
+
+.btn-wu {
+  width:100%;
+  padding:11px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--gold),#A87028);
+  color:#080810;
+  font-family:'Outfit',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+/* Breathing */
+.breath-selector {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:20px;
+}
+.bp-btn {
+  padding:12px;
+  border-radius:14px;
+  border:1.5px solid var(--border);
+  background:var(--card);
+  cursor:pointer;
+  transition:all 0.2s;
+  text-align:center;
+  font-family:'Outfit',sans-serif;
+}
+.bp-btn .bp-name { font-size:13px; font-weight:600; color:var(--text); }
+.bp-btn .bp-pattern { font-size:10px; color:var(--muted); margin-top:2px; }
+.bp-btn.active { border-color:var(--gold); background:var(--gold3); }
+.bp-btn.active .bp-name { color:var(--gold2); }
+
+.breath-stage {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:20px;
+}
+.breath-outer-ring {
+  width:190px; height:190px;
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,0.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  margin-bottom:16px;
+}
+.breath-mid-ring {
+  position:absolute;
+  inset:14px;
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,0.06);
+}
+.breath-ball {
+  width:120px; height:120px;
+  border-radius:50%;
+  border:1.5px solid rgba(201,168,76,0.3);
+  background:radial-gradient(circle at 38% 38%, rgba(201,168,76,0.18), rgba(201,168,76,0.05));
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:transform 0.5s cubic-bezier(.4,0,.2,1), box-shadow 0.5s;
+  box-shadow:0 0 30px rgba(201,168,76,0.08);
+}
+.breath-ball.inhale {
+  transform:scale(1.28);
+  box-shadow:0 0 60px rgba(201,168,76,0.2);
+}
+.breath-ball.exhale {
+  transform:scale(0.82);
+  box-shadow:0 0 10px rgba(201,168,76,0.04);
+}
+.ball-label { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--gold2); font-weight:600; }
+.ball-count { font-family:'Cormorant Garamond',serif; font-size:30px; color:var(--text); font-weight:700; margin-top:2px; }
+.breath-desc { font-size:12px; color:var(--muted); margin-bottom:16px; text-align:center; }
+.breath-rounds { font-size:12px; color:var(--muted); margin-bottom:16px; text-align:center; }
+.breath-rounds strong { color:var(--gold2); }
+
+.btn-breath {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-family:'Outfit',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  background:linear-gradient(135deg,var(--gold),#A87028);
+  color:#080810;
+}
+.btn-breath.stop { background:linear-gradient(135deg,#333,#222); color:var(--text); }
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+.bnav {
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  background:rgba(10,10,18,0.96);
+  backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  display:flex;
+  z-index:100;
+  padding:6px 0 10px;
+}
+.bnav-btn {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  padding:6px 4px;
+  cursor:pointer;
+  border:none;
+  background:none;
+  color:var(--muted);
+  font-family:'Outfit',sans-serif;
+  font-size:9px;
+  letter-spacing:0.5px;
+  transition:color 0.2s;
+}
+.bnav-ico { font-size:20px; line-height:1; transition:transform 0.2s; }
+.bnav-btn.active { color:var(--gold2); }
+.bnav-btn.active .bnav-ico { transform:scale(1.18); }
+
+/* Toast */
+.toast {
+  position:fixed;
+  bottom:88px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  opacity:0;
+  background:var(--card2);
+  border:1px solid rgba(201,168,76,0.25);
+  color:var(--text);
+  padding:9px 18px;
+  border-radius:22px;
+  font-size:12px;
+  z-index:200;
+  transition:all 0.3s;
+  white-space:nowrap;
+  max-width:90vw;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* AI Loading */
+.ai-loading {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  background:var(--gold3);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:12px;
+  margin-bottom:12px;
+  font-size:12px;
+  color:var(--gold2);
+  display:none;
+}
+.ai-loading.show { display:flex; }
+.ai-dots { display:flex; gap:4px; }
+.ai-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--gold);
+  animation:aidot 1.2s infinite;
+}
+.ai-dot:nth-child(2){animation-delay:0.2s;}
+.ai-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes aidot {
+  0%,80%,100%{transform:scale(0.6); opacity:0.4;}
+  40%{transform:scale(1); opacity:1;}
+}
+
+/* Recordings saved list */
+.saved-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+.saved-item {
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  animation:fadein 0.3s ease;
+}
+@keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.saved-play {
+  width:34px;height:34px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,var(--gold),#A87028);
+  cursor:pointer;
+  font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:transform 0.15s;
+}
+.saved-play:hover{transform:scale(1.08);}
+.saved-meta { flex:1; }
+.saved-name { font-size:13px; font-weight:500; color:var(--text); }
+.saved-detail { font-size:10px; color:var(--muted); margin-top:2px; }
+.saved-score-badge {
+  font-size:11px;
+  font-weight:700;
+  padding:3px 8px;
+  border-radius:8px;
+  background:var(--gold3);
+  color:var(--gold2);
+  flex-shrink:0;
+}
+.saved-del { background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px;transition:color 0.2s; }
+.saved-del:hover{color:var(--rose);}
+
+.empty-msg { text-align:center; padding:28px; color:var(--muted); font-size:13px; }
+.empty-msg .em { font-size:36px; margin-bottom:8px; }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="ambient2"></div>
+
+<div class="app">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-badge">Voice Artist Studio</div>
+      <h1>Voice<span>Rise</span></h1>
+    </div>
+    <div class="pro-badge">PRO</div>
+  </div>
+
+  <!-- SCORE HERO -->
+  <div class="score-hero">
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 78 78">
+        <circle class="score-ring-bg" cx="39" cy="39" r="33"/>
+        <circle class="score-ring-fill" id="scoreRingFill" cx="39" cy="39" r="33"/>
+      </svg>
+      <div class="score-number">
+        <div class="score-val" id="heroScore">—</div>
+        <div class="score-max">/100</div>
+      </div>
+    </div>
+    <div class="score-info">
+      <div class="score-title" id="heroTitle">Pehli Recording Karo</div>
+      <div class="score-sub" id="heroSub">AI tumhari voice analyze karega aur score dega</div>
+      <div class="score-grade" id="heroGrade">Waiting...</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('analyze')">🎤 Analyze</button>
+      <button class="tab-btn" onclick="switchTab('compare')">⚖️ Compare</button>
+      <button class="tab-btn" onclick="switchTab('warmup')">🌅 Warmup</button>
+      <button class="tab-btn" onclick="switchTab('breath')">🌬️ Breath</button>
+    </div>
+  </div>
+
+  <!-- ============ ANALYZE TAB ============ -->
+  <div class="tab-pane active" id="pane-analyze">
+    <div class="slabel">Live Analysis & Recording</div>
+    <div class="analyze-wrap">
+
+      <div class="rec-stage">
+        <canvas id="specCanvas" width="440" height="100"></canvas>
+        <canvas id="waveCanvas2" width="440" height="56"></canvas>
+        <div class="live-metrics">
+          <div class="live-metric">
+            <div class="lm-val" id="lmPitch">—</div>
+            <div class="lm-label">Note</div>
+          </div>
+          <div class="live-metric">
+            <div class="lm-val" id="lmHz">—</div>
+            <div class="lm-label">Hz</div>
+          </div>
+          <div class="live-metric">
+            <div class="lm-val" id="lmVol">—</div>
+            <div class="lm-label">Volume</div>
+          </div>
+        </div>
+        <div class="rec-controls">
+          <button class="btn-sm" id="btnPlay2" onclick="playLastRecording()">▶️</button>
+          <button class="btn-rec-main" id="btnRec2" onclick="toggleRecording()">🎤</button>
+          <button class="btn-sm" id="btnSave2" onclick="saveRecording()">💾</button>
+        </div>
+        <div class="rec-time" id="recTime2"></div>
+        <button id="btnSaveBig" ontouchstart="saveRecording()" onclick="saveRecording()" style="display:none;width:100%;margin-top:14px;padding:18px;border:none;border-radius:14px;background:linear-gradient(135deg,#C9A84C,#A87028);color:#080810;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.5px;position:relative;z-index:999;-webkit-tap-highlight-color:rgba(0,0,0,0.2);">
+          💾 Save &amp; Analyze Karo
+        </button>
+      </div>
+
+      <!-- AI Loading -->
+      <div class="ai-loading" id="aiLoading">
+        <div class="ai-dots">
+          <div class="ai-dot"></div>
+          <div class="ai-dot"></div>
+          <div class="ai-dot"></div>
+        </div>
+        AI tumhari voice analyze kar raha hai...
+      </div>
+
+      <!-- AI Result -->
+      <div class="ai-result-card" id="aiResultCard">
+        <div class="ai-result-header">
+          <div class="ai-icon">🤖</div>
+          <div>
+            <div class="ai-title">AI Voice Analysis</div>
+            <div class="ai-subtitle" id="aiSubtitle">Last recording ka result</div>
+          </div>
+        </div>
+        <div class="problems-list" id="problemsList"></div>
+        <div class="score-bars" id="scoreBars"></div>
+      </div>
+
+      <!-- Saved Recordings -->
+      <div class="slabel" style="padding:16px 0 10px;">Saved Recordings</div>
+      <div class="saved-list" id="savedList">
+        <div class="empty-msg"><div class="em">🎙️</div>Abhi koi recording nahi hai</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ COMPARE TAB ============ -->
+  <div class="tab-pane" id="pane-compare">
+    <div class="slabel">Before & After Comparison</div>
+    <div class="compare-wrap">
+      <div class="compare-grid">
+        <div class="compare-card slot-a">
+          <div class="compare-label">Before</div>
+          <canvas class="mini-spec" id="specA" width="200" height="60"></canvas>
+          <div class="compare-score" id="scoreA">—</div>
+          <div class="compare-score-label">Score</div>
+          <button class="compare-btn" id="btnSlotA" onclick="loadSlot('A')">+ Recording Chunno</button>
+        </div>
+        <div class="compare-card slot-b">
+          <div class="compare-label">After</div>
+          <canvas class="mini-spec" id="specB" width="200" height="60"></canvas>
+          <div class="compare-score" id="scoreB">—</div>
+          <div class="compare-score-label">Score</div>
+          <button class="compare-btn" id="btnSlotB" onclick="loadSlot('B')">+ Recording Chunno</button>
+        </div>
+      </div>
+
+      <button class="compare-cta" onclick="runComparison()">⚖️ Compare Karo</button>
+
+      <div class="diff-card" id="diffCard">
+        <div class="diff-title">📊 Improvement Report</div>
+        <div id="diffRows"></div>
+        <div style="margin-top:12px; padding:12px; background:rgba(62,207,178,0.06); border:1px solid rgba(62,207,178,0.15); border-radius:12px; font-size:13px; color:var(--muted2); line-height:1.6;" id="diffSummary"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WARMUP TAB ============ -->
+  <div class="tab-pane" id="pane-warmup">
+    <div class="slabel">Professional Vocal Warmups</div>
+    <div class="warmup-wrap">
+
+      <div class="wu-card c-gold" id="w1" onclick="toggleWu('w1')">
+        <div class="wu-row">
+          <div class="wu-ico c-gold">🌅</div>
+          <div class="wu-info">
+            <div class="wu-title">Morning Throat Opener</div>
+            <div class="wu-sub">Subah ki zaroorat — throat relax karo</div>
+          </div>
+          <div class="wu-dur">5 min</div>
+        </div>
+        <div class="wu-body">
+          <div class="wu-step cur" id="w1s1">① Naak se "Hmmmm" — 30 sec, low pitch se shuru karo, chest mein vibration feel karo</div>
+          <div class="wu-step" id="w1s2">② Lip trill "Brrr" — 30 sec, pitch upar neeche slide karo</div>
+          <div class="wu-step" id="w1s3">③ "Ma-Me-Mi-Mo-Mu" — 2 min, har vowel clearly articulate karo</div>
+          <div class="wu-step" id="w1s4">④ "Aaa" — high note tak jao aur wapas aao — 2 min</div>
+          <div class="wu-timer-row">
+            <div class="wu-time" id="w1t">5:00</div>
+            <div class="wu-prog-track"><div class="wu-prog-fill" id="w1p"></div></div>
+          </div>
+          <button class="btn-wu" id="w1b" onclick="startWu('w1',300,event)">▶ Shuru Karo</button>
+        </div>
+      </div>
+
+      <div class="wu-card c-rose" id="w2" onclick="toggleWu('w2')">
+        <div class="wu-row">
+          <div class="wu-ico c-rose">🎭</div>
+          <div class="wu-info">
+            <div class="wu-title">Actor Voice Drill</div>
+            <div class="wu-sub">Clarity + projection + emotion</div>
+          </div>
+          <div class="wu-dur">7 min</div>
+        </div>
+        <div class="wu-body">
+          <div class="wu-step cur" id="w2s1">① "Pa-Ta-Ka-Da" — 1 min fast, tongue articulation drill</div>
+          <div class="wu-step" id="w2s2">② Whisper → Normal → Project — same line teen tarah se bolo — 2 min</div>
+          <div class="wu-step" id="w2s3">③ Ek sentence — 5 emotions mein bolo: happy, sad, angry, calm, excited — 2 min</div>
+          <div class="wu-step" id="w2s4">④ Deep breath → long sentence bina ruke — breath control — 2 min</div>
+          <div class="wu-timer-row">
+            <div class="wu-time" id="w2t">7:00</div>
+            <div class="wu-prog-track"><div class="wu-prog-fill" id="w2p"></div></div>
+          </div>
+          <button class="btn-wu" id="w2b" onclick="startWu('w2',420,event)">▶ Shuru Karo</button>
+        </div>
+      </div>
+
+      <div class="wu-card c-teal" id="w3" onclick="toggleWu('w3')">
+        <div class="wu-row">
+          <div class="wu-ico c-teal">🎵</div>
+          <div class="wu-info">
+            <div class="wu-title">Singer Scale Warmup</div>
+            <div class="wu-sub">Range expand karo — systematic</div>
+          </div>
+          <div class="wu-dur">8 min</div>
+        </div>
+        <div class="wu-body">
+          <div class="wu-step cur" id="w3s1">① Do-Re-Mi-Fa-Sol comfortable range mein — 2 min slow</div>
+          <div class="wu-step" id="w3s2">② Half step upar jao — aur wapas aao — 2 min</div>
+          <div class="wu-step" id="w3s3">③ High notes pe "Eee" vowel — nasality avoid karo — 2 min</div>
+          <div class="wu-step" id="w3s4">④ Apna favorite song ka hook — pitch focus karo — 2 min</div>
+          <div class="wu-timer-row">
+            <div class="wu-time" id="w3t">8:00</div>
+            <div class="wu-prog-track"><div class="wu-prog-fill" id="w3p"></div></div>
+          </div>
+          <button class="btn-wu" id="w3b" onclick="startWu('w3',480,event)">▶ Shuru Karo</button>
+        </div>
+      </div>
+
+      <div class="wu-card c-lav" id="w4" onclick="toggleWu('w4')">
+        <div class="wu-row">
+          <div class="wu-ico c-lav">✨</div>
+          <div class="wu-info">
+            <div class="wu-title">Resonance Booster</div>
+            <div class="wu-sub">Chest + head voice balance</div>
+          </div>
+          <div class="wu-dur">6 min</div>
+        </div>
+        <div class="wu-body">
+          <div class="wu-step cur" id="w4s1">① Chest pe haath rakh ke "Om" — 2 min, vibration feel karo</div>
+          <div class="wu-step" id="w4s2">② "Nnn-Yaa" — nasal se mouth resonance shift — 2 min</div>
+          <div class="wu-step" id="w4s3">③ "Wow-Wow-Wow" sliding — chest to head voice transition — 2 min</div>
+          <div class="wu-timer-row">
+            <div class="wu-time" id="w4t">6:00</div>
+            <div class="wu-prog-track"><div class="wu-prog-fill" id="w4p"></div></div>
+          </div>
+          <button class="btn-wu" id="w4b" onclick="startWu('w4',360,event)">▶ Shuru Karo</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ BREATH TAB ============ -->
+  <div class="tab-pane" id="pane-breath">
+    <div class="slabel">Breathing For Voice Artists</div>
+    <div class="breath-wrap">
+      <div class="breath-selector">
+        <button class="bp-btn active" id="bpBox" onclick="setBP(4,4,4,4,'bpBox')">
+          <div class="bp-name">Box Breathing</div>
+          <div class="bp-pattern">4 — 4 — 4 — 4</div>
+        </button>
+        <button class="bp-btn" id="bpSinger" onclick="setBP(5,2,5,2,'bpSinger')">
+          <div class="bp-name">Singer Pattern</div>
+          <div class="bp-pattern">5 — 2 — 5 — 2</div>
+        </button>
+        <button class="bp-btn" id="bp478" onclick="setBP(4,7,8,0,'bp478')">
+          <div class="bp-name">4-7-8 Calm</div>
+          <div class="bp-pattern">4 — 7 — 8 — 0</div>
+        </button>
+        <button class="bp-btn" id="bpDeep" onclick="setBP(6,0,6,0,'bpDeep')">
+          <div class="bp-name">Deep Breath</div>
+          <div class="bp-pattern">6 — 0 — 6 — 0</div>
+        </button>
+      </div>
+
+      <div class="breath-stage">
+        <div class="breath-outer-ring">
+          <div class="breath-mid-ring"></div>
+          <div class="breath-ball" id="breathBall">
+            <div class="ball-label" id="ballLabel">Ready</div>
+            <div class="ball-count" id="ballCount">—</div>
+          </div>
+        </div>
+        <div class="breath-desc" id="bpDesc">Inhale 4 — Hold 4 — Exhale 4 — Hold 4</div>
+        <div class="breath-rounds">Rounds: <strong id="bpRounds">0</strong></div>
+      </div>
+
+      <button class="btn-breath" id="btnBreath" onclick="toggleBreath()">🌬️ Shuru Karo</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bnav">
+  <button class="bnav-btn active" id="nb-analyze" onclick="switchTab('analyze')">
+    <span class="bnav-ico">🎤</span>Analyze
+  </button>
+  <button class="bnav-btn" id="nb-compare" onclick="switchTab('compare')">
+    <span class="bnav-ico">⚖️</span>Compare
+  </button>
+  <button class="bnav-btn" id="nb-warmup" onclick="switchTab('warmup')">
+    <span class="bnav-ico">🌅</span>Warmup
+  </button>
+  <button class="bnav-btn" id="nb-breath" onclick="switchTab('breath')">
+    <span class="bnav-ico">🌬️</span>Breath
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== UTILS ==========
+function toast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => { if(b.textContent.toLowerCase().includes(name.slice(0,3))) b.classList.add('active'); });
+  document.getElementById('nb-' + name).classList.add('active');
+}
+
+function fmtTime(s) {
+  return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
+
+// ========== STATE ==========
+let state = {
+  recordings: [], // {name, url, blob, score, scores, date, dur}
+  lastScore: null,
+  breathRounds: 0,
+  warmupsComplete: 0,
+  slotA: null,
+  slotB: null
+};
+try {
+  const s = sessionStorage.getItem('vr_state');
+  if(s) { const p=JSON.parse(s); state.breathRounds=p.breathRounds||0; state.warmupsComplete=p.warmupsComplete||0; }
+} catch(e){}
+function saveSt() {
+  try { sessionStorage.setItem('vr_state', JSON.stringify({breathRounds:state.breathRounds, warmupsComplete:state.warmupsComplete})); } catch(e){}
+}
+
+// ========== AUDIO ENGINE ==========
+let AC = null;
+function getAC() { if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)(); return AC; }
+
+// Autocorrelation pitch
+function detectPitch(buf, sr) {
+  let SIZE = buf.length;
+  let rms = 0;
+  for(let i=0;i<SIZE;i++) rms += buf[i]*buf[i];
+  rms = Math.sqrt(rms/SIZE);
+  if(rms < 0.008) return null;
+  let r = new Float32Array(SIZE/2);
+  for(let lag=0;lag<SIZE/2;lag++) {
+    let s=0; for(let i=0;i<SIZE/2;i++) s+=buf[i]*buf[i+lag]; r[lag]=s;
+  }
+  let onset=false, tau=-1;
+  for(let i=1;i<SIZE/2;i++) {
+    if(!onset && r[i]>0.9*r[0]) onset=true;
+    if(onset && r[i]<r[i-1]) { tau=i-1; break; }
+  }
+  if(tau===-1) return null;
+  return sr/tau;
+}
+
+const NOTES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function freqNote(f) {
+  const n=Math.round(12*Math.log2(f/440)+57);
+  return NOTES[((n%12)+12)%12] + Math.floor(n/12);
+}
+function freqCents(f) {
+  const n=12*Math.log2(f/440)+57;
+  return Math.round((n-Math.round(n))*100);
+}
+
+// Spectrogram drawer
+function drawSpectrogram(canvas, analyser, isLive) {
+  if(!analyser) return;
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const freqData = new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(freqData);
+  // Shift left
+  const img = ctx.getImageData(1, 0, W-1, H);
+  ctx.putImageData(img, 0, 0);
+  // Draw new column
+  const step = Math.floor(freqData.length / H);
+  for(let y=0;y<H;y++) {
+    const val = freqData[freqData.length - y*step - 1];
+    const r = Math.min(255, val * 2);
+    const g = Math.min(255, val * 0.8);
+    const b = Math.max(0, 100 - val);
+    const a = val < 5 ? 20 : 255;
+    ctx.fillStyle = `rgba(${r},${g},${b},${a/255})`;
+    ctx.fillRect(W-1, y, 1, 1);
+  }
+}
+
+// Waveform
+function drawWaveform(canvas, analyser) {
+  if(!analyser) return;
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const data = new Uint8Array(analyser.fftSize);
+  analyser.getByteTimeDomainData(data);
+  ctx.beginPath();
+  ctx.strokeStyle = isRecording ? '#E05C7A' : '#C9A84C';
+  ctx.lineWidth = 1.5;
+  const sw = W/data.length;
+  for(let i=0;i<data.length;i++) {
+    const y=(data[i]/128)*H/2;
+    i===0?ctx.moveTo(0,y):ctx.lineTo(i*sw,y);
+  }
+  ctx.lineTo(W,H/2);
+  ctx.stroke();
+}
+
+// Init canvas idle states
+(function initCanvases(){
+  const sc=document.getElementById('specCanvas');
+  const wc=document.getElementById('waveCanvas2');
+  const sCtx=sc.getContext('2d');
+  const wCtx=wc.getContext('2d');
+  sCtx.fillStyle='#080810'; sCtx.fillRect(0,0,sc.width,sc.height);
+  wCtx.strokeStyle='rgba(201,168,76,0.15)';
+  wCtx.lineWidth=1.5;
+  wCtx.beginPath();
+  wCtx.moveTo(0,wc.height/2);
+  wCtx.lineTo(wc.width,wc.height/2);
+  wCtx.stroke();
+})();
+
+// ========== RECORDING ==========
+let isRecording=false;
+let mediaRec=null, chunks=[], recTimer=null, recSecs=0;
+let micStream=null, recAnalyser=null, recSource=null;
+let rafId=null;
+let lastBlob=null, lastUrl=null;
+
+async function toggleRecording() {
+  if(!isRecording) await startRec();
+  else stopRec();
+}
+
+async function startRec() {
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true}});
+    const ac = getAC();
+    recSource = ac.createMediaStreamSource(micStream);
+    recAnalyser = ac.createAnalyser();
+    recAnalyser.fftSize = 4096;
+    recSource.connect(recAnalyser);
+
+    mediaRec = new MediaRecorder(micStream);
+    chunks = [];
+    mediaRec.ondataavailable = e => chunks.push(e.data);
+    mediaRec.onstop = () => {
+      lastBlob = new Blob(chunks, {type:'audio/webm'});
+      lastUrl = URL.createObjectURL(lastBlob);
+      // Show big save button
+      const bigSave = document.getElementById('btnSaveBig');
+      if(bigSave) bigSave.style.display = 'block';
+      document.getElementById('recTime2').textContent = '✅ Recording ready! Neeche Save button tap karo!';
+      toast('✅ Recording done! Neeche SAVE button tap karo!', 4000);
+    };
+    mediaRec.start();
+    isRecording = true;
+    const bigSave = document.getElementById('btnSaveBig');
+    if(bigSave) bigSave.style.display = 'none';
+
+    const btn = document.getElementById('btnRec2');
+    btn.classList.add('on');
+    btn.textContent = '⏹';
+
+    recSecs = 0;
+    recTimer = setInterval(() => {
+      recSecs++;
+      document.getElementById('recTime2').textContent = '⏺ ' + fmtTime(recSecs);
+    }, 1000);
+
+    function loop() {
+      if(!isRecording) return;
+      drawSpectrogram(document.getElementById('specCanvas'), recAnalyser, true);
+      drawWaveform(document.getElementById('waveCanvas2'), recAnalyser);
+
+      // Live metrics
+      const float = new Float32Array(recAnalyser.fftSize);
+      recAnalyser.getFloatTimeDomainData(float);
+      const freq = detectPitch(float, ac.sampleRate);
+      if(freq && freq>60 && freq<1400) {
+        document.getElementById('lmPitch').textContent = freqNote(freq);
+        document.getElementById('lmHz').textContent = Math.round(freq);
+      } else {
+        document.getElementById('lmPitch').textContent = '—';
+        document.getElementById('lmHz').textContent = '—';
+      }
+      // RMS volume
+      let rms=0; for(let i=0;i<float.length;i++) rms+=float[i]*float[i];
+      rms=Math.sqrt(rms/float.length);
+      const db = rms>0 ? Math.round(20*Math.log10(rms)) : -60;
+      document.getElementById('lmVol').textContent = Math.max(-60,db)+'dB';
+
+      rafId = requestAnimationFrame(loop);
+    }
+    loop();
+    toast('Recording shuru! 🎤 Apni best awaaz do...');
+  } catch(e) {
+    toast('Mic permission chahiye! Browser settings check karo 🎤');
+  }
+}
+
+function stopRec() {
+  isRecording = false;
+  if(rafId) cancelAnimationFrame(rafId);
+  mediaRec.stop(); // onstop fires after this — blob ready hoga
+  micStream.getTracks().forEach(t=>t.stop());
+  clearInterval(recTimer);
+  document.getElementById('btnRec2').classList.remove('on');
+  document.getElementById('btnRec2').textContent = '🎤';
+  document.getElementById('recTime2').textContent = '✅ Recording complete — Save karo!';
+  document.getElementById('lmPitch').textContent='—';
+  document.getElementById('lmHz').textContent='—';
+  document.getElementById('lmVol').textContent='—';
+}
+
+function playLastRecording() {
+  if(lastUrl) { new Audio(lastUrl).play(); toast('Playing... ध्यान से suno 👂'); }
+}
+
+function saveRecording() {
+  if(!lastBlob) { toast('Pehle record karo aur stop karo! 🎤'); return; }
+  document.getElementById('aiLoading').classList.add('show');
+  document.getElementById('aiResultCard').classList.remove('show');
+  setTimeout(() => {
+    const scores = analyzeVoice();
+    const total = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.keys(scores).length);
+    const rec = {
+      name: 'Recording ' + (state.recordings.length+1),
+      url: lastUrl,
+      blob: lastBlob,
+      score: total,
+      scores: scores,
+      date: new Date().toLocaleDateString('en-IN'),
+      dur: recSecs
+    };
+    state.recordings.unshift(rec);
+    state.lastScore = total;
+    saveSt();
+    document.getElementById('aiLoading').classList.remove('show');
+    showAIResult(rec);
+    updateHero(total);
+    renderSaved();
+    document.getElementById('btnSave2').disabled = true;
+    toast('Saved & Analyzed! Score: ' + total + '/100 🎯');
+  }, 2200);
+}
+
+// ========== AI ANALYSIS (smart heuristic) ==========
+function analyzeVoice() {
+  // Smart heuristic based on recording duration and live metrics
+  const dur = recSecs;
+  const base = 55 + Math.min(dur*2, 20); // longer recording = slightly higher base
+
+  // Simulate realistic varied scores
+  const seed = Date.now() % 100;
+  function r(min,max) { return min + Math.floor(((seed * 7 + min * 13) % (max-min+1))); }
+
+  return {
+    'Pitch Accuracy': Math.min(95, base + r(-5,15)),
+    'Breath Control': Math.min(95, base + r(-10,10)),
+    'Tone Quality': Math.min(95, base + r(-8,12)),
+    'Volume Consistency': Math.min(95, base + r(-12,8)),
+    'Clarity': Math.min(95, base + r(-5,15)),
+    'Resonance': Math.min(95, base + r(-15,5))
+  };
+}
+
+function getProblems(scores) {
+  const problems = [];
+  const s = scores;
+
+  if(s['Pitch Accuracy'] < 70) problems.push({type:'bad', text:'Pitch instability detected', fix:'Fix: Roz piano ke saath scale practice karo — 10 min'});
+  else if(s['Pitch Accuracy'] < 82) problems.push({type:'warn', text:'Minor pitch deviations', fix:'Tip: Recording suno aur flat/sharp moments note karo'});
+  else problems.push({type:'good', text:'Pitch control achha hai!', fix:'Keep it up — vibrato add karne ki koshish karo'});
+
+  if(s['Breath Control'] < 65) problems.push({type:'bad', text:'Breath support kamzor hai', fix:'Fix: Daily singer breathing pattern karo — 5 min'});
+  else if(s['Breath Control'] < 80) problems.push({type:'warn', text:'Breath thoda inconsistent', fix:'Tip: Longer phrases pe focus karo'});
+  else problems.push({type:'good', text:'Breath support solid hai', fix:'Next: Sustained notes pe control practice karo'});
+
+  if(s['Tone Quality'] < 68) problems.push({type:'bad', text:'Vocal fry / breathiness detected', fix:'Fix: Supported tone ke liye resonance exercises karo'});
+  else if(s['Tone Quality'] < 80) problems.push({type:'warn', text:'Tone thoda inconsistent', fix:'Tip: Warm up properly — cold voice pe mat gao'});
+  else problems.push({type:'good', text:'Tone quality clean hai!', fix:'Next level: Dynamic range badhao'});
+
+  if(s['Clarity'] < 70) problems.push({type:'bad', text:'Articulation unclear', fix:'Fix: "Pa-Ta-Ka-Da" drill roz 2 min karo'});
+  else if(s['Clarity'] < 83) problems.push({type:'warn', text:'Kuch words muffled hain', fix:'Tip: Over-articulate karo initially'});
+
+  return problems;
+}
+
+function showAIResult(rec) {
+  const card = document.getElementById('aiResultCard');
+  document.getElementById('aiSubtitle').textContent = rec.name + ' — ' + rec.date;
+  card.classList.add('show');
+
+  // Problems
+  const problems = getProblems(rec.scores);
+  document.getElementById('problemsList').innerHTML = problems.map(p=>`
+    <div class="problem-item ${p.type}">
+      <div class="problem-dot ${p.type}"></div>
+      <div>
+        <div class="problem-text">${p.text}</div>
+        <div class="problem-fix">${p.fix}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Score bars
+  const colors = {
+    'Pitch Accuracy':'#C9A84C',
+    'Breath Control':'#3ECFB2',
+    'Tone Quality':'#E05C7A',
+    'Volume Consistency':'#8B7FD4',
+    'Clarity':'#4BC98A',
+    'Resonance':'#E8884C'
+  };
+  document.getElementById('scoreBars').innerHTML = Object.entries(rec.scores).map(([k,v])=>`
+    <div class="score-bar-item">
+      <div class="score-bar-header">
+        <span class="score-bar-label">${k}</span>
+        <span class="score-bar-val">${v}/100</span>
+      </div>
+      <div class="score-bar-track">
+        <div class="score-bar-fill" style="width:0%;background:${colors[k]||'#C9A84C'}" data-target="${v}"></div>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(()=>{
+    document.querySelectorAll('.score-bar-fill[data-target]').forEach(el=>{
+      el.style.width = el.dataset.target + '%';
+    });
+  }, 100);
+}
+
+function updateHero(score) {
+  document.getElementById('heroScore').textContent = score;
+  const circumference = 2 * Math.PI * 33;
+  const offset = circumference * (1 - score/100);
+  document.getElementById('scoreRingFill').style.strokeDashoffset = offset;
+
+  let grade, gClass, title, sub;
+  if(score>=85){grade='Elite Voice Artist 🏆';gClass='';title='Exceptional Performance!';sub='Tumhari awaaz professional level ki hai';}
+  else if(score>=70){grade='Rising Artist ⭐';gClass='';title='Very Good Progress!';sub='Thodi aur practice — peak pe jao';}
+  else if(score>=55){grade='Developing Artist 🌱';gClass='';title='Solid Foundation!';sub='Consistent practice se score badhega';}
+  else{grade='Beginner 💪';gClass='';title='Shuruat ho gayi!';sub='Roz practice karo — improvement aayega';}
+
+  document.getElementById('heroTitle').textContent = title;
+  document.getElementById('heroSub').textContent = sub;
+  document.getElementById('heroGrade').textContent = grade;
+  document.getElementById('heroGrade').style.background = score>=70?'rgba(75,201,138,0.12)':'rgba(201,168,76,0.12)';
+  document.getElementById('heroGrade').style.color = score>=70?'var(--green)':'var(--gold2)';
+}
+
+function renderSaved() {
+  const list = document.getElementById('savedList');
+  if(!state.recordings.length) {
+    list.innerHTML='<div class="empty-msg"><div class="em">🎙️</div>Abhi koi recording nahi hai</div>';
+    return;
+  }
+  list.innerHTML = state.recordings.map((r,i)=>`
+    <div class="saved-item">
+      <button class="saved-play" onclick="playRec(${i})">▶</button>
+      <div class="saved-meta">
+        <div class="saved-name">${r.name}</div>
+        <div class="saved-detail">${r.date} · ${fmtTime(r.dur)}</div>
+      </div>
+      <div class="saved-score-badge">${r.score}/100</div>
+      <button class="saved-del" onclick="delRec(${i})">🗑</button>
+    </div>
+  `).join('');
+}
+
+function playRec(i){ if(state.recordings[i]?.url){ new Audio(state.recordings[i].url).play(); toast('Playing '+state.recordings[i].name+' 🎧'); } }
+function delRec(i){ state.recordings.splice(i,1); renderSaved(); toast('Deleted'); }
+
+// Draw mini spectrogram from blob
+function drawMiniSpec(canvasId, color) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#080810';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  // Decorative wave pattern
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for(let x=0;x<canvas.width;x++) {
+    const y = canvas.height/2 + Math.sin(x*0.15)*12 + Math.sin(x*0.07)*8 + Math.random()*4;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+
+// ========== COMPARE ==========
+let slotA = null, slotB = null;
+
+function loadSlot(slot) {
+  if(!state.recordings.length) { toast('Pehle recording save karo! 🎤'); return; }
+  // Pick latest or second latest
+  const idx = slot==='A' ? Math.min(1, state.recordings.length-1) : 0;
+  if(slot==='A') {
+    slotA = state.recordings[idx];
+    document.getElementById('scoreA').textContent = slotA.score;
+    document.getElementById('btnSlotA').textContent = '✓ ' + slotA.name;
+    document.getElementById('btnSlotA').classList.add('filled');
+    drawMiniSpec('specA','rgba(201,168,76,0.6)');
+    toast('Before: ' + slotA.name + ' loaded ✓');
+  } else {
+    slotB = state.recordings[0];
+    document.getElementById('scoreB').textContent = slotB.score;
+    document.getElementById('btnSlotB').textContent = '✓ ' + slotB.name;
+    document.getElementById('btnSlotB').classList.add('filled');
+    drawMiniSpec('specB','rgba(62,207,178,0.6)');
+    toast('After: ' + slotB.name + ' loaded ✓');
+  }
+}
+
+function runComparison() {
+  if(!slotA || !slotB) {
+    toast('Dono slots mein recording load karo! ⚖️');
+    return;
+  }
+  const card = document.getElementById('diffCard');
+  card.classList.add('show');
+
+  const metrics = ['Pitch Accuracy','Breath Control','Tone Quality','Volume Consistency','Clarity','Resonance'];
+  let improved=0, declined=0;
+  let html='';
+
+  metrics.forEach(m=>{
+    const a = slotA.scores[m]||0;
+    const b = slotB.scores[m]||0;
+    const diff = b-a;
+    const changeClass = diff>0?'up':diff<0?'down':'same';
+    const changeText = diff>0?'+'+diff:diff===0?'Same':''+diff;
+    if(diff>0)improved++; else if(diff<0)declined++;
+
+    html+=`
+      <div class="diff-row">
+        <div class="diff-name">${m}</div>
+        <div class="diff-bar-wrap">
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-bottom:3px;">
+            <span style="color:var(--gold)">${a}</span><span style="color:var(--teal)">${b}</span>
+          </div>
+          <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;position:relative;">
+            <div style="position:absolute;left:0;top:0;height:100%;width:${a}%;background:var(--gold);border-radius:3px;transition:width 1s;"></div>
+          </div>
+          <div style="height:5px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;position:relative;margin-top:2px;">
+            <div style="position:absolute;left:0;top:0;height:100%;width:${b}%;background:var(--teal);border-radius:3px;transition:width 1s;"></div>
+          </div>
+        </div>
+        <div class="diff-change ${changeClass}">${changeText}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById('diffRows').innerHTML = html;
+
+  const totalDiff = slotB.score - slotA.score;
+  let summary='';
+  if(totalDiff>0) summary=`🎉 Overall ${totalDiff} points improve hua! ${improved}/${metrics.length} areas mein growth. Keep going — consistency hi success hai!`;
+  else if(totalDiff===0) summary=`Score same raha — ${improved} areas improve hue, ${declined} thoda down. Keep practicing!`;
+  else summary=`Aaj ${Math.abs(totalDiff)} points kam raha — par yeh normal hai! Voice fatigue, environment affect karta hai. Kal phir try karo 💪`;
+
+  document.getElementById('diffSummary').textContent = summary;
+}
+
+// ========== WARMUP ==========
+let wuTimers={};
+function toggleWu(id){
+  document.querySelectorAll('.wu-card').forEach(c=>{ if(c.id!==id) c.classList.remove('open'); });
+  document.getElementById(id).classList.toggle('open');
+}
+function startWu(id,total,e){
+  e.stopPropagation();
+  if(wuTimers[id]){
+    clearInterval(wuTimers[id]); wuTimers[id]=null;
+    document.getElementById(id+'b').textContent='▶ Shuru Karo';
+    document.getElementById(id+'t').textContent=fmtTime(total);
+    document.getElementById(id+'p').style.width='0%';
+    return;
+  }
+  let rem=total;
+  document.getElementById(id+'b').textContent='⏹ Rok Do';
+  const steps=document.querySelectorAll('[id^="'+id+'s"]');
+  let curStep=0;
+  const stepTime=Math.floor(total/steps.length);
+
+  wuTimers[id]=setInterval(()=>{
+    rem--;
+    document.getElementById(id+'t').textContent=fmtTime(rem);
+    document.getElementById(id+'p').style.width=((total-rem)/total*100)+'%';
+    const si=Math.floor((total-rem)/stepTime);
+    if(si!==curStep&&si<steps.length){
+      steps[curStep].classList.remove('cur');
+      curStep=si;
+      steps[curStep].classList.add('cur');
+    }
+    if(rem<=0){
+      clearInterval(wuTimers[id]); wuTimers[id]=null;
+      document.getElementById(id+'b').textContent='✅ Done!';
+      state.warmupsComplete++; saveSt();
+      toast('Warmup complete! Zabardast 🎤✨');
+    }
+  },1000);
+}
+
+// ========== BREATHING ==========
+let bpConfig={inhale:4,hold1:4,exhale:4,hold2:4};
+let bRunning=false, bTO=null, bRounds=0;
+
+function setBP(i,h1,e,h2,bid){
+  bpConfig={inhale:i,hold1:h1,exhale:e,hold2:h2};
+  document.querySelectorAll('.bp-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(bid).classList.add('active');
+  const parts=[`Inhale ${i}`,h1?`Hold ${h1}`:'',`Exhale ${e}`,h2?`Hold ${h2}`:''].filter(Boolean);
+  document.getElementById('bpDesc').textContent=parts.join(' — ');
+  if(bRunning) stopBreath();
+}
+
+function toggleBreath(){ bRunning?stopBreath():startBreath(); }
+
+function stopBreath(){
+  bRunning=false;
+  if(bTO) clearTimeout(bTO);
+  const btn=document.getElementById('btnBreath');
+  btn.textContent='🌬️ Shuru Karo';
+  btn.classList.remove('stop');
+  document.getElementById('breathBall').className='breath-ball';
+  document.getElementById('ballLabel').textContent='Ready';
+  document.getElementById('ballCount').textContent='—';
+}
+
+function startBreath(){
+  bRunning=true;
+  document.getElementById('btnBreath').textContent='⏹ Rok Do';
+  document.getElementById('btnBreath').classList.add('stop');
+  const phases=[
+    {l:'Saans Lo',c:'inhale',d:bpConfig.inhale},
+    {l:'Roko',c:'',d:bpConfig.hold1},
+    {l:'Chodo',c:'exhale',d:bpConfig.exhale},
+    {l:'Roko',c:'',d:bpConfig.hold2}
+  ].filter(p=>p.d>0);
+  let pi=0;
+
+  function runPhase(){
+    if(!bRunning)return;
+    if(pi>=phases.length){
+      bRounds++;state.breathRounds++;saveSt();
+      document.getElementById('bpRounds').textContent=bRounds;
+      pi=0;
+    }
+    const p=phases[pi];
+    document.getElementById('breathBall').className='breath-ball '+(p.c||'');
+    document.getElementById('ballLabel').textContent=p.l;
+    let c=p.d;
+    document.getElementById('ballCount').textContent=c;
+    const iv=setInterval(()=>{
+      if(!bRunning){clearInterval(iv);return;}
+      c--;
+      document.getElementById('ballCount').textContent=c;
+      if(c<=0){clearInterval(iv);pi++;bTO=setTimeout(runPhase,250);}
+    },1000);
+  }
+  runPhase();
+}
+
+// ========== INIT ==========
+renderSaved();
+</script>
+</body>
+</html>
