@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Swar Sadhana Pro — Your Voice Guru</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08060f;
+  --bg2: #0d0a1a;
+  --surface: #131024;
+  --card: #1a1530;
+  --card2: #201a3a;
+  --border: rgba(180,140,255,0.12);
+  --border2: rgba(201,168,76,0.2);
+  --gold: #d4a847;
+  --gold2: #f0cc78;
+  --purple: #8b5cf6;
+  --purple2: #a78bfa;
+  --pink: #e879b0;
+  --text: #f0ecff;
+  --muted: #8b82a8;
+  --muted2: #6b6388;
+  --green: #4ade80;
+  --red: #f87171;
+  --orange: #fb923c;
+  --sa-c: #ff6b6b; --re-c: #ff9f40; --ga-c: #ffd93d;
+  --ma-c: #6bcb77; --pa-c: #4d96ff; --dha-c: #9b59b6; --ni-c: #e056d8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  display:flex;flex-direction:column;
+  max-width:480px;margin:0 auto;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%,rgba(139,92,246,0.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 70% at 85% 100%,rgba(212,168,71,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 100% 100% at 50% 50%,rgba(8,6,15,0.95) 0%,transparent 100%);
+  pointer-events:none;z-index:0;
+}
+
+/* SCROLL CONTAINER */
+.app{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;z-index:1;padding-bottom:72px;}
+.app::-webkit-scrollbar{width:3px;}
+.app::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* ── HEADER ── */
+.header{
+  padding:20px 18px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:rgba(8,6,15,0.95);
+  backdrop-filter:blur(20px);z-index:5;
+}
+.header-left h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:700;
+  background:linear-gradient(135deg,var(--gold2),var(--purple2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.header-left .sub{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
+.guru-chip{
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(212,168,71,0.15),rgba(139,92,246,0.15));
+  border:1px solid var(--border2);border-radius:20px;
+  padding:6px 12px;cursor:pointer;
+}
+.guru-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(0.85);}}
+.guru-chip span{font-size:11px;color:var(--gold);font-weight:500;}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;overflow-x:auto;gap:0;
+  padding:0 14px;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,6,15,0.9);
+  position:sticky;top:57px;z-index:4;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  flex-shrink:0;background:none;border:none;
+  color:var(--muted);font-family:'DM Sans',sans-serif;
+  font-size:11px;font-weight:500;
+  padding:11px 14px;cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.2s;white-space:nowrap;
+  letter-spacing:0.3px;
+}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── SECTIONS ── */
+.sec{display:none;padding:16px;}
+.sec.active{display:block;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:4px;}
+.sec-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+
+/* ── GURU SPEAK ── */
+.guru-box{
+  background:linear-gradient(135deg,rgba(212,168,71,0.1),rgba(139,92,246,0.08));
+  border:1px solid var(--border2);border-radius:16px;
+  padding:14px 16px;margin-bottom:16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.guru-avatar{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;border:2px solid var(--border2);
+}
+.guru-msg{flex:1;}
+.guru-msg .who{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.guru-msg .msg{font-size:13px;line-height:1.6;color:var(--text);}
+
+/* ── CARDS ── */
+.card{
+  background:linear-gradient(135deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:16px;
+  padding:16px;margin-bottom:12px;
+}
+.card-title{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.stat{
+  background:linear-gradient(135deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:14px;
+  padding:12px 8px;text-align:center;
+}
+.stat-v{
+  font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;
+  background:linear-gradient(135deg,var(--gold2),var(--purple2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;
+}
+.stat-l{font-size:9px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* ── TODAY PLAN ── */
+.plan-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.plan-item:last-child{border:none;}
+.pcheck{
+  width:24px;height:24px;border-radius:7px;
+  border:1.5px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;font-size:13px;
+}
+.pcheck.done{background:var(--green);border-color:var(--green);}
+.ptext{flex:1;font-size:12px;}
+.ptext.strike{text-decoration:line-through;color:var(--muted);}
+.ptime{font-size:10px;color:var(--muted);background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:10px;}
+
+/* ── TANPURA ── */
+.tanpura-wrap{
+  background:linear-gradient(135deg,rgba(212,168,71,0.12),rgba(139,92,246,0.12));
+  border:1px solid var(--border2);border-radius:20px;
+  padding:20px;text-align:center;margin-bottom:14px;
+}
+.tanpura-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);margin-bottom:4px;}
+.tanpura-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
+.tanpura-strings{display:flex;justify-content:center;gap:8px;margin-bottom:16px;}
+.t-string{
+  width:4px;height:60px;border-radius:4px;
+  background:linear-gradient(to bottom,var(--gold2),var(--purple));
+  opacity:0.3;transition:all 0.1s;
+}
+.t-string.active{opacity:1;animation:strum 0.5s ease-out;}
+@keyframes strum{0%{transform:scaleX(3);opacity:1;}100%{transform:scaleX(1);opacity:1;}}
+.tanpura-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.tkey{
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);
+  border-radius:10px;padding:8px 4px;cursor:pointer;
+  font-size:11px;text-align:center;color:var(--muted);transition:all 0.2s;
+}
+.tkey.active{background:rgba(212,168,71,0.15);border-color:var(--gold);color:var(--gold);}
+.tkey:hover{border-color:var(--purple2);color:var(--purple2);}
+.tkey .note{font-family:'Cormorant Garamond',serif;font-size:18px;display:block;font-weight:700;}
+.tanpura-controls{display:flex;gap:10px;justify-content:center;}
+.btn{
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border:none;border-radius:50px;color:white;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  padding:10px 20px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;
+}
+.btn:hover{opacity:0.85;transform:scale(1.02);}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2))!important;color:var(--bg)!important;}
+.btn.outline{background:none;border:1px solid var(--border);color:var(--muted);}
+.btn.outline:hover{border-color:var(--purple2);color:var(--purple2);}
+.btn.stop{background:linear-gradient(135deg,#7f1d1d,var(--red));}
+.tempo-row{display:flex;align-items:center;gap:10px;margin-top:12px;justify-content:center;}
+.tempo-row label{font-size:11px;color:var(--muted);}
+input[type=range]{
+  -webkit-appearance:none;width:100px;height:4px;
+  background:linear-gradient(90deg,var(--purple),var(--gold));
+  border-radius:4px;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:white;cursor:pointer;
+}
+
+/* ── SWAR PRACTICE ── */
+.swar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px;}
+.sw-btn{
+  aspect-ratio:1;border-radius:12px;border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;font-weight:700;
+  font-family:'Cormorant Garamond',serif;font-size:15px;
+}
+.sw-btn .d{font-family:'Noto Sans Devanagari',sans-serif;font-size:8px;font-weight:400;margin-top:1px;}
+.sw-btn:hover{transform:scale(1.1);}
+.sw-btn.playing{transform:scale(1.15);animation:glow 1s infinite alternate;}
+@keyframes glow{from{box-shadow:0 0 8px currentColor;}to{box-shadow:0 0 20px currentColor,0 0 40px currentColor;}}
+
+/* Pitch meter */
+.pitch-meter{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:16px;margin-bottom:12px;
+}
+.pm-title{font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.pm-display{
+  height:60px;background:rgba(0,0,0,0.3);border-radius:10px;
+  position:relative;overflow:hidden;margin-bottom:8px;
+}
+.pm-target{
+  position:absolute;top:0;bottom:0;width:3px;
+  background:var(--gold);left:50%;transform:translateX(-50%);
+  opacity:0.5;
+}
+.pm-needle{
+  position:absolute;top:10%;bottom:10%;width:3px;
+  background:linear-gradient(to bottom,var(--green),var(--purple));
+  border-radius:4px;left:50%;transform:translateX(-50%);
+  transition:left 0.1s ease;box-shadow:0 0 10px var(--green);
+}
+.pm-zone{position:absolute;top:0;bottom:0;opacity:0.08;}
+.pm-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);}
+.pm-feedback{
+  text-align:center;font-size:13px;font-weight:600;
+  padding:6px;border-radius:8px;margin-top:6px;
+  background:rgba(74,222,128,0.1);color:var(--green);
+  transition:all 0.3s;
+}
+
+/* Mic button */
+.mic-wrap{display:flex;justify-content:center;margin-bottom:14px;}
+.mic-btn{
+  width:72px;height:72px;border-radius:50%;
+  border:3px solid var(--border2);
+  background:linear-gradient(135deg,var(--card),var(--card2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;cursor:pointer;transition:all 0.3s;
+}
+.mic-btn.listening{
+  border-color:var(--red);
+  box-shadow:0 0 0 0 rgba(248,113,113,0.4);
+  animation:mic-pulse 1.5s infinite;
+}
+@keyframes mic-pulse{
+  0%{box-shadow:0 0 0 0 rgba(248,113,113,0.4);}
+  70%{box-shadow:0 0 0 20px rgba(248,113,113,0);}
+  100%{box-shadow:0 0 0 0 rgba(248,113,113,0);}
+}
+.mic-label{text-align:center;font-size:11px;color:var(--muted);margin-top:6px;}
+
+/* Visualizer */
+.viz{display:flex;align-items:center;justify-content:center;gap:2px;height:40px;margin-bottom:10px;}
+.vbar{
+  width:3px;border-radius:2px;
+  background:linear-gradient(to top,var(--purple),var(--gold));
+  height:4px;transition:height 0.08s;
+}
+
+/* ── LESSONS ── */
+.lesson-card{
+  background:linear-gradient(135deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:16px;
+  padding:14px;margin-bottom:10px;cursor:pointer;
+  transition:all 0.2s;display:flex;align-items:center;gap:12px;
+  position:relative;overflow:hidden;
+}
+.lesson-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--lc,var(--purple));
+}
+.lesson-card:hover{border-color:rgba(139,92,246,0.3);}
+.lesson-card.active-lesson{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,168,71,0.08),rgba(139,92,246,0.08));}
+.lesson-card.done-lesson{border-color:rgba(74,222,128,0.2);}
+.lesson-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.lesson-info{flex:1;}
+.lesson-info h4{font-size:14px;font-weight:600;margin-bottom:2px;}
+.lesson-info p{font-size:11px;color:var(--muted);}
+.lesson-prog{height:3px;background:rgba(255,255,255,0.06);border-radius:4px;margin-top:6px;overflow:hidden;}
+.lesson-prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--gold));transition:width 0.5s;}
+.lesson-badge{font-size:18px;flex-shrink:0;}
+
+/* Lesson detail */
+.lesson-detail{display:none;background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:14px;padding:14px;margin-top:-4px;margin-bottom:10px;}
+.lesson-detail.open{display:block;}
+.lesson-step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.lesson-step:last-child{border:none;}
+.step-num{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;flex-shrink:0;color:white;
+}
+.step-text{font-size:12px;color:var(--text);line-height:1.5;}
+.step-text .hint{color:var(--gold);font-size:11px;margin-top:2px;display:block;}
+
+/* ── TIMER ── */
+.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0;}
+.timer-ring{position:relative;width:160px;height:160px;}
+.ring-svg{transform:rotate(-90deg);width:160px;height:160px;}
+.ring-bg-c{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8;}
+.ring-fg{fill:none;stroke:url(#tg);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 0.5s ease;}
+.timer-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.timer-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1;
+  background:linear-gradient(135deg,var(--gold2),var(--purple2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.timer-phase{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.timer-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.tpreset{
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;cursor:pointer;text-align:center;
+  font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);transition:all 0.2s;
+}
+.tpreset.sel{border-color:var(--gold);color:var(--gold);background:rgba(212,168,71,0.08);}
+.tpreset .tv{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;display:block;line-height:1.1;}
+.timer-btns{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+
+/* Breathing */
+.breath-ring{
+  width:100px;height:100px;border-radius:50%;
+  border:3px solid var(--purple2);margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:500;color:var(--purple2);
+  transition:all 2s cubic-bezier(0.4,0,0.2,1);
+}
+.breath-ring.inhale{transform:scale(1.35);border-color:var(--gold);color:var(--gold);}
+.breath-ring.hold{border-color:var(--green);color:var(--green);}
+.breath-ring.exhale{transform:scale(0.78);border-color:var(--red);color:var(--red);}
+
+/* ── RECORDINGS ── */
+.rec-list{display:flex;flex-direction:column;gap:8px;}
+.rec-item{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:12px;display:flex;align-items:center;gap:10px;
+}
+.rec-play{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border:none;color:white;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.rec-info{flex:1;}
+.rec-info .rn{font-size:12px;font-weight:600;}
+.rec-info .rd{font-size:10px;color:var(--muted);}
+.rec-wave{display:flex;align-items:center;gap:1px;height:20px;margin-top:4px;}
+.rec-bar{width:2px;border-radius:1px;background:linear-gradient(to top,var(--purple),var(--gold));opacity:0.7;}
+.rec-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:16px;padding:4px;}
+.rec-del:hover{color:var(--red);}
+
+/* ── PROGRESS ── */
+.progress-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px;}
+.day-box{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:8px 4px;text-align:center;
+}
+.day-box.done{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.3);}
+.day-box.today{border-color:var(--gold);}
+.day-box .dn{font-size:9px;color:var(--muted);letter-spacing:0.5px;}
+.day-box .dm{font-size:16px;line-height:1.2;}
+.skill-bars{display:flex;flex-direction:column;gap:10px;}
+.skill-row{display:flex;align-items:center;gap:10px;}
+.skill-name{font-size:11px;color:var(--muted);width:70px;flex-shrink:0;}
+.skill-bar{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.skill-pct{font-size:10px;color:var(--muted);width:28px;text-align:right;}
+
+/* ── SWAR DETAIL CARDS ── */
+.swar-detail{
+  border-radius:16px;padding:16px;margin-bottom:10px;border:1px solid;
+}
+.sd-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.sd-icon{
+  width:54px;height:54px;border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;flex-shrink:0;
+}
+.sd-icon .sd{font-family:'Noto Sans Devanagari',sans-serif;font-size:9px;font-weight:400;margin-top:1px;}
+.sd-meta h3{font-size:16px;font-weight:600;}
+.sd-meta .sm{font-size:11px;color:var(--muted);margin-top:2px;}
+.sd-meta .sc{font-size:11px;margin-top:3px;}
+.sd-tips{list-style:none;margin-bottom:10px;}
+.sd-tips li{font-size:12px;color:var(--muted);padding:3px 0 3px 14px;position:relative;line-height:1.5;}
+.sd-tips li::before{content:'♪';position:absolute;left:0;color:var(--gold);font-size:10px;}
+.sd-exercise{background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;margin-bottom:10px;}
+.sd-exercise .et{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.sd-exercise .ec{font-size:12px;color:var(--text);line-height:1.6;}
+
+/* PLAY BTN */
+.play-swar-btn{
+  display:flex;align-items:center;gap:8px;
+  background:none;border:1px solid;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  padding:8px 16px;cursor:pointer;transition:all 0.2s;
+}
+.play-swar-btn:hover{opacity:0.8;}
+
+/* ── NOW PLAYING BAR ── */
+.now-bar{
+  position:fixed;bottom:72px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 24px);max-width:456px;
+  background:rgba(26,21,48,0.97);backdrop-filter:blur(20px);
+  border:1px solid var(--border2);border-radius:14px;
+  padding:10px 14px;display:none;align-items:center;gap:10px;
+  z-index:10;
+}
+.now-bar.show{display:flex;}
+.now-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0;animation:pulse 1.5s infinite;}
+.now-info{flex:1;}
+.now-swar{font-size:13px;font-weight:600;}
+.now-freq{font-size:10px;color:var(--muted);}
+.now-viz{display:flex;align-items:center;gap:1.5px;height:18px;}
+.now-vbar{width:2px;border-radius:1px;background:linear-gradient(to top,var(--purple),var(--gold));}
+.now-stop{background:none;border:1px solid rgba(248,113,113,0.3);border-radius:8px;color:var(--red);font-size:11px;padding:5px 10px;cursor:pointer;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  display:flex;background:rgba(8,6,15,0.97);
+  backdrop-filter:blur(20px);border-top:1px solid var(--border);
+  padding:6px 0 14px;z-index:20;flex-shrink:0;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:none;border:none;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:9px;cursor:pointer;
+  padding:6px 4px;transition:all 0.2s;
+}
+.nav-item.active{color:var(--gold);}
+.nav-item .ni{font-size:20px;line-height:1;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.sec.active>*{animation:fadeUp 0.3s ease both;}
+.sec.active>*:nth-child(2){animation-delay:0.04s;}
+.sec.active>*:nth-child(3){animation-delay:0.08s;}
+.sec.active>*:nth-child(4){animation-delay:0.12s;}
+.sec.active>*:nth-child(5){animation-delay:0.16s;}
+
+/* Responsive */
+@media(max-width:360px){.swar-grid{grid-template-columns:repeat(7,1fr);gap:4px;}.sw-btn{font-size:13px;border-radius:10px;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Swar Sadhana Pro</h1>
+    <div class="sub">स्वर साधना • Voice Guru</div>
+  </div>
+  <div class="guru-chip">
+    <div class="guru-dot"></div>
+    <span>Guru Online</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('home',this)">🏠 Home</button>
+  <button class="tab" onclick="showTab('tanpura',this)">🎵 Tanpura</button>
+  <button class="tab" onclick="showTab('practice',this)">🎤 Practice</button>
+  <button class="tab" onclick="showTab('lessons',this)">📚 Lessons</button>
+  <button class="tab" onclick="showTab('timer',this)">⏱ Timer</button>
+  <button class="tab" onclick="showTab('records',this)">🎙 Record</button>
+  <button class="tab" onclick="showTab('progress',this)">📈 Progress</button>
+</div>
+
+<!-- APP SCROLL -->
+<div class="app">
+
+<!-- ════ HOME ════ -->
+<div class="sec active" id="tab-home">
+
+  <div class="guru-box">
+    <div class="guru-avatar">🪔</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg" id="guru-home-msg">Namaste! 🙏 Aaj ka riyaz shuru karte hain. Pehle tanpura chalao, phir apni awaaz ko "Sa" pe lao. Yaad rakho — sur ko pakadna ek sadhana hai, jaldi mein mat raho.</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-v" id="s-streak">0</div><div class="stat-l">🔥 Streak</div></div>
+    <div class="stat"><div class="stat-v" id="s-min">0</div><div class="stat-l">⏱ Min</div></div>
+    <div class="stat"><div class="stat-v" id="s-level">1</div><div class="stat-l">⭐ Level</div></div>
+    <div class="stat"><div class="stat-v" id="s-sessions">0</div><div class="stat-l">🎵 Sessions</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Aaj Ka Riyaz Plan</div>
+    <div id="home-plan">
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">🫁 Breathing warm-up</div><div class="ptime">5 min</div></div>
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">🎵 Tanpura sun ke Sa pakdo</div><div class="ptime">5 min</div></div>
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">⬆️ Aroha — Sa Re Ga Ma Pa Dha Ni Sa</div><div class="ptime">10 min</div></div>
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">⬇️ Avroha — Sa Ni Dha Pa Ma Ga Re Sa</div><div class="ptime">10 min</div></div>
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">🎼 Alankaar practice</div><div class="ptime">10 min</div></div>
+      <div class="plan-item"><div class="pcheck" onclick="toggleCheck(this)"></div><div class="ptext">🎙 Apni awaaz record karo</div><div class="ptime">5 min</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Aaj Ka Tip</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7" id="daily-tip">
+      <strong style="color:var(--text)">"Sa" ek aisa sur hai jo kabhi badlta nahi.</strong> Roz subah sirf 5 minute "Sa" pe aawaz laga ke raho — aankhein band karo, seena kholo, naak se saans lo. Itne se hi tumhara base strong hoga. 🎵
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ TANPURA ════ -->
+<div class="sec" id="tab-tanpura">
+
+  <div class="guru-box">
+    <div class="guru-avatar">🎵</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Tanpura practice ki neenv hai. Pehle tanpura chalao, phir iske sur ke saath apni awaaz milao. Sur pakadna tab tak nahi aayega jab tak tum kisi aur ki awaaz ke saath practice nahi karte.</div>
+    </div>
+  </div>
+
+  <div class="tanpura-wrap">
+    <div class="tanpura-title">🎵 Tanpura Drone</div>
+    <div class="tanpura-sub">Apna base note chuno aur practice shuru karo</div>
+
+    <div class="tanpura-strings">
+      <div class="t-string" id="ts1"></div>
+      <div class="t-string" id="ts2"></div>
+      <div class="t-string" id="ts3"></div>
+      <div class="t-string" id="ts4"></div>
+    </div>
+
+    <div class="tanpura-keys">
+      <div class="tkey" onclick="setTanpuraKey('C',261.63,this)"><span class="note">C</span>Sa</div>
+      <div class="tkey active" onclick="setTanpuraKey('C#',277.18,this)"><span class="note">C#</span>Sa+</div>
+      <div class="tkey" onclick="setTanpuraKey('D',293.66,this)"><span class="note">D</span>Re</div>
+      <div class="tkey" onclick="setTanpuraKey('D#',311.13,this)"><span class="note">D#</span>Re+</div>
+      <div class="tkey" onclick="setTanpuraKey('E',329.63,this)"><span class="note">E</span>Ga</div>
+      <div class="tkey" onclick="setTanpuraKey('F',349.23,this)"><span class="note">F</span>Ma</div>
+      <div class="tkey" onclick="setTanpuraKey('F#',369.99,this)"><span class="note">F#</span>Ma+</div>
+      <div class="tkey" onclick="setTanpuraKey('G',392.00,this)"><span class="note">G</span>Pa</div>
+    </div>
+
+    <div class="tanpura-controls">
+      <button class="btn gold" id="tanpura-btn" onclick="toggleTanpura()">▶ Tanpura Chalao</button>
+    </div>
+
+    <div class="tempo-row">
+      <label>Speed:</label>
+      <input type="range" min="0.5" max="2" step="0.1" value="1" id="tanpura-speed" oninput="updateTanpuraSpeed(this.value)">
+      <label id="speed-val">1.0x</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 Tanpura Practice Guide</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:4px;">STEP 1 — SUN KE SAMJHO</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">Pehle sirf tanpura suno — 2 minute. Koi sur mat nikalo. Bas feel karo.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:4px;">STEP 2 — HUM KARO</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">"Mmmmm" ki awaaz andar hi andar nikalo. Sur ko feel karo apne seene mein.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:10px;">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:4px;">STEP 3 — "SA" PAKDO</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">"Aaaaaa" bolte hue tanpura ke sur se milao. Jab dono ek jaisa lage — tab sahi hai.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ PRACTICE ════ -->
+<div class="sec" id="tab-practice">
+
+  <div class="guru-box">
+    <div class="guru-avatar">🎤</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Mic button dabao aur apni awaaz nikalo. Main dekhunga tum sahi sur pe ho ya nahi. Pehle Sa practice karo — jab tak perfect na ho aage mat badhna!</div>
+    </div>
+  </div>
+
+  <!-- Swar selector -->
+  <div class="card">
+    <div class="card-title">🎼 Swar Chuno — Play Karo</div>
+    <div class="swar-grid" id="swar-grid"></div>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="playAroha()" style="font-size:11px;padding:8px 14px;">⬆️ Aroha</button>
+      <button class="btn outline" onclick="playAvroha()" style="font-size:11px;padding:8px 14px;">⬇️ Avroha</button>
+      <button class="btn outline" onclick="playAlankaar()" style="font-size:11px;padding:8px 14px;">🎼 Alankaar</button>
+      <button class="btn stop" onclick="stopAllAudio()" style="font-size:11px;padding:8px 14px;">⏹ Stop</button>
+    </div>
+  </div>
+
+  <!-- Pitch Detector -->
+  <div class="pitch-meter">
+    <div class="pm-title">
+      <span>🎯 Pitch Meter — Tumhari Awaaz</span>
+      <span id="pitch-note" style="color:var(--gold);font-weight:600">—</span>
+    </div>
+    <div class="pm-display">
+      <div class="pm-zone" style="left:0;width:40%;background:var(--red)"></div>
+      <div class="pm-zone" style="left:40%;width:20%;background:var(--gold)"></div>
+      <div class="pm-zone" style="left:60%;width:40%;background:var(--red)"></div>
+      <div class="pm-target"></div>
+      <div class="pm-needle" id="pm-needle"></div>
+    </div>
+    <div class="pm-labels"><span>Bahut Neeche ↓</span><span>Perfect Zone ✓</span><span>Bahut Upar ↑</span></div>
+    <div class="pm-feedback" id="pm-feedback">Mic on karo aur sur nikalo...</div>
+  </div>
+
+  <div class="mic-wrap">
+    <div>
+      <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+      <div class="mic-label" id="mic-label">Tap to Start Listening</div>
+    </div>
+  </div>
+
+  <div class="viz" id="practice-viz">
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+  </div>
+
+  <!-- Swar Detail Cards -->
+  <div id="swar-details-wrap"></div>
+
+</div>
+
+<!-- ════ LESSONS ════ -->
+<div class="sec" id="tab-lessons">
+
+  <div class="guru-box">
+    <div class="guru-avatar">📚</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Ek ek lesson complete karo — seedha jump mat karo. Pehla lesson perfect hoga tab doosra khulega. Yahi classical training ka sahi tarika hai.</div>
+    </div>
+  </div>
+
+  <div id="lessons-wrap"></div>
+</div>
+
+<!-- ════ TIMER ════ -->
+<div class="sec" id="tab-timer">
+
+  <div class="guru-box">
+    <div class="guru-avatar">⏱</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Roz kam se kam 30 minute riyaz karo. Shuruwat mein 15 se bhi ho jayega. Par consistency zaroori hai — ek din bhi skip mat karo!</div>
+    </div>
+  </div>
+
+  <div class="timer-presets" id="timer-presets"></div>
+
+  <div class="timer-ring-wrap">
+    <div class="timer-ring">
+      <svg class="ring-svg" viewBox="0 0 160 160">
+        <defs>
+          <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#d4a847"/>
+            <stop offset="100%" style="stop-color:#a78bfa"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg-c" cx="80" cy="80" r="68"/>
+        <circle class="ring-fg" id="timer-ring-fg" cx="80" cy="80" r="68"
+          stroke-dasharray="427" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-inner">
+        <div class="timer-num" id="timer-disp">15:00</div>
+        <div class="timer-phase" id="timer-phase-lbl">Ready</div>
+      </div>
+    </div>
+    <div class="timer-btns">
+      <button class="btn outline" onclick="resetTimer()" style="padding:10px 18px;font-size:12px;">↺ Reset</button>
+      <button class="btn" id="timer-start-btn" onclick="toggleTimer()" style="padding:10px 24px;font-size:13px;">▶ Start</button>
+    </div>
+  </div>
+
+  <!-- Breathing Guide -->
+  <div class="card">
+    <div class="card-title">🫁 Breathing Warm-up — 4-4-8</div>
+    <div style="text-align:center;padding:10px 0;">
+      <div class="breath-ring" id="breath-ring">Ready</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px" id="breath-phase-lbl">4-4-8 technique — best for voice</div>
+      <button class="btn" id="breath-toggle" onclick="toggleBreath()" style="margin:0 auto;">Start Breathing</button>
+    </div>
+  </div>
+
+  <!-- Guru Phase Guide -->
+  <div class="card">
+    <div class="card-title">📋 Practice Phases</div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="phase-guide"></div>
+  </div>
+</div>
+
+<!-- ════ RECORDINGS ════ -->
+<div class="sec" id="tab-records">
+
+  <div class="guru-box">
+    <div class="guru-avatar">🎙</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Apni awaaz sunna zaroori hai. Jo record hai use kal sunna — tumhe khud pata chalega kahan galti ho rahi hai. Yahi sabse bada ustaad hai!</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
+    <button class="btn" id="rec-btn" onclick="toggleRecording()" style="flex:1;">🎙 Record Shuru Karo</button>
+    <div style="font-size:12px;color:var(--muted)" id="rec-timer-disp">00:00</div>
+  </div>
+
+  <div class="viz" id="rec-viz" style="margin-bottom:14px;">
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+    <div class="vbar" style="height:4px"></div><div class="vbar" style="height:4px"></div>
+  </div>
+
+  <div class="card-title" style="margin-bottom:10px;">🗂 Saved Recordings</div>
+  <div class="rec-list" id="rec-list">
+    <div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;">Koi recording nahi hai abhi.<br>Upar se record karo! 🎤</div>
+  </div>
+</div>
+
+<!-- ════ PROGRESS ════ -->
+<div class="sec" id="tab-progress">
+
+  <div class="guru-box">
+    <div class="guru-avatar">📈</div>
+    <div class="guru-msg">
+      <div class="who">Guru Says</div>
+      <div class="msg">Progress dekhne se motivation milta hai. Har din ka riyaz yahan track hoga. Yaad rakho — consistency hi success hai!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Is Hafte Ka Riyaz</div>
+    <div class="progress-week" id="week-progress"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 Skill Progress</div>
+    <div class="skill-bars" id="skill-bars"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌟 Journey — Beginner to Pro</div>
+    <div id="journey-list"></div>
+  </div>
+
+</div>
+
+</div><!-- end .app -->
+
+<!-- NOW PLAYING BAR -->
+<div class="now-bar" id="now-bar">
+  <div class="now-dot"></div>
+  <div class="now-info">
+    <div class="now-swar" id="np-swar">—</div>
+    <div class="now-freq" id="np-freq">—</div>
+  </div>
+  <div class="now-viz" id="now-viz">
+    <div class="now-vbar" style="height:4px"></div><div class="now-vbar" style="height:4px"></div>
+    <div class="now-vbar" style="height:4px"></div><div class="now-vbar" style="height:4px"></div>
+    <div class="now-vbar" style="height:4px"></div><div class="now-vbar" style="height:4px"></div>
+    <div class="now-vbar" style="height:4px"></div><div class="now-vbar" style="height:4px"></div>
+  </div>
+  <button class="now-stop" onclick="stopAllAudio()">■ Stop</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showTabNav('home',this)"><span class="ni">🏠</span>Home</button>
+  <button class="nav-item" onclick="showTabNav('tanpura',this)"><span class="ni">🎵</span>Tanpura</button>
+  <button class="nav-item" onclick="showTabNav('practice',this)"><span class="ni">🎤</span>Practice</button>
+  <button class="nav-item" onclick="showTabNav('lessons',this)"><span class="ni">📚</span>Lessons</button>
+  <button class="nav-item" onclick="showTabNav('timer',this)"><span class="ni">⏱</span>Timer</button>
+  <button class="nav-item" onclick="showTabNav('records',this)"><span class="ni">🎙</span>Record</button>
+  <button class="nav-item" onclick="showTabNav('progress',this)"><span class="ni">📈</span>Progress</button>
+</nav>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════
+const SWARS=[
+  {id:'Sa',d:'सा',f:261.63,c:'#ff6b6b',ch:'🔴 Root Chakra',m:'Neenv — Mor ki awaaz',
+   tips:['Mooh "aah" ki tarah kholo','Seene mein vibration feel karo','5-8 second hold karo','Aawaz andar se nikalo, force mat karo'],
+   ex:'Roze subah sirf "Sa" pe 5 minute aawaz lagao. Aankhein band, seena khola, gehra saans.'},
+  {id:'Re',d:'रे',f:293.66,c:'#ff9f40',ch:'🟠 Sacral Chakra',m:'Bhavna — Bail ki awaaz',
+   tips:['Sa se thoda roshan sur','Pait mein warmth feel karo','Sa→Re→Sa practice karo','Lips thoda aage rakho'],
+   ex:'Sa nikalo, phir Re pe jao, phir wapas Sa pe. Slow aur smooth transition.'},
+  {id:'Ga',d:'ग',f:329.63,c:'#ffd93d',ch:'🟡 Solar Plexus',m:'Shakti — Bakri ki awaaz',
+   tips:['Roshan aur aage ki awaaz','Pait ki muscles feel karo','Nasalize mat karo','Sa Re Ga practice karo'],
+   ex:'Sa Re Ga Ga Re Sa — yeh basic alankaar hai. 10 baar karo.'},
+  {id:'Ma',d:'म',f:349.23,c:'#6bcb77',ch:'💚 Heart Chakra',m:'Prem — Kabutar ki awaaz',
+   tips:['Sabse important swar','Dil ki jagah kholo','Shuddha aur Teevra dono seekho','Lamba hold practice karo'],
+   ex:'"Ma" pe ruk jao aur 10 second hold karo. Mehsoos karo dil ka area.'},
+  {id:'Pa',d:'प',f:392.00,c:'#4d96ff',ch:'💙 Throat Chakra',m:'Socha — Koyal ki awaaz',
+   tips:['Kabhi nahi badalta swar','Natural resonance hai','Gale ko khula rakho','Sa-Pa-Sa-Pa scales karo'],
+   ex:'Sa aur Pa ke beech jump karo — Sa Pa Sa Pa. Natural interval hai.'},
+  {id:'Dha',d:'ध',f:440.00,c:'#9b59b6',ch:'🟣 Third Eye',m:'Gyaan — Ghode ki awaaz',
+   tips:['Oonchi resonance','Sar ke upar vibration','Sa+Dha intervals practice','Aankhen soft rakhno'],
+   ex:'Sa Re Ga Ma Pa Dha — ek baar mein poora Aroha. Dha pe ruko.'},
+  {id:'Ni',d:'नि',f:493.88,c:'#e056d8',ch:'👑 Crown Chakra',m:'Mukti — Haathi ki awaaz',
+   tips:['Sabse ooncha swar','Komal aur Shuddha dono seekho','Crown area open karo','Sa se Ni complete journey'],
+   ex:'Poora Sa Re Ga Ma Pa Dha Ni Sa — tab wapas Sa Ni Dha Pa Ma Ga Re Sa.'},
+];
+
+const LESSONS=[
+  {icon:'🌱',title:'Lesson 1: Saans Ki Neenv',desc:'Breathing aur voice connection',color:'#6bcb77',progress:60,unlocked:true,
+   steps:[
+     {t:'Diaphragm Breathing',d:'Haath pait pe rakho. Naak se saans lo — pait andar nahi, bahar aana chahiye. 4 second.',h:'Seena nahi, pait hilna chahiye'},
+     {t:'4-4-8 Technique',d:'4 sec inhale, 4 sec hold, 8 sec exhale. 5 baar karo.',h:'Exhale pe "Sssss" ki awaaz nikalo'},
+     {t:'Hum Practice',d:'"Mmmmm" awaaz nikalo — mooh band, aankhein band. Sur feel karo seene mein.',h:'Lips vibrate honni chahiye'},
+     {t:'Sa Se Connect Karo',d:'Hum karte karte mooh kholo — "Maaaaaaa" ban jaye.',h:'Sur mat change karo, smooth transition'},
+   ]},
+  {icon:'🎵',title:'Lesson 2: Sa Ki Sadhana',desc:'Root swar ki poori practice',color:'#ff6b6b',progress:30,unlocked:true,
+   steps:[
+     {t:'Sa Ko Pahchano',d:'261 Hz frequency suno. Yeh tumhara anchor hai.',h:'Phone speaker se sun ke resonance feel karo'},
+     {t:'Sa Match Karo',d:'Tanpura chalao aur Sa pe apni awaaz milao. Baar baar try karo.',h:'Jab bilkul same lage — woh perfect Sa hai'},
+     {t:'Sa Hold Karo',d:'"Aaaa" bolte hue Sa pe 10 second hold karo. Phir 15, phir 20.',h:'Throat tense mat karo'},
+     {t:'Sa Record Karo',d:'Apna Sa record karo. Suno. Phir improve karo.',h:'Khud ka judge banana seekho'},
+   ]},
+  {icon:'⬆️',title:'Lesson 3: Aroha Seekho',desc:'Sa se Sa tak upar jaana',color:'#4d96ff',progress:0,unlocked:false,
+   steps:[
+     {t:'Sa Re practice',d:'Sa→Re→Sa. Ek swar ka jump sikhna.',h:''},
+     {t:'Sa Re Ga',d:'Teen swaron ka sequence.',h:''},
+     {t:'Poora Aroha',d:'Sa Re Ga Ma Pa Dha Ni Sa — upar tak.',h:''},
+     {t:'Speed badhaao',d:'Slow se medium tempo tak.',h:''},
+   ]},
+  {icon:'⬇️',title:'Lesson 4: Avroha Seekho',desc:'Sa se Sa tak neeche aana',color:'#e056d8',progress:0,unlocked:false,
+   steps:[]},
+  {icon:'🎼',title:'Lesson 5: Alankaar',desc:'Basic patterns — 1234, 1235, 1245',color:'#ffd93d',progress:0,unlocked:false,
+   steps:[]},
+  {icon:'🪔',title:'Lesson 6: Raag Parichay',desc:'Raag Bhoopali — tumhara pehla raag',color:'#d4a847',progress:0,unlocked:false,
+   steps:[]},
+  {icon:'✨',title:'Lesson 7: Voice Creator Pro',desc:'Stage performance + content voice',color:'#8b5cf6',progress:0,unlocked:false,
+   steps:[]},
+];
+
+const PHASES=[
+  {t:'🫁 Breathing',d:'Naak se deep breath, 4-4-8 technique',min:5},
+  {t:'🎵 Tanpura Sun',d:'Bina awaaz ke sirf tanpura suno',min:3},
+  {t:'🎤 Sa Practice',d:'Sirf Sa — match karo, hold karo',min:7},
+  {t:'⬆️ Aroha',d:'Sa Re Ga Ma Pa Dha Ni Sa — slow',min:8},
+  {t:'⬇️ Avroha',d:'Sa Ni Dha Pa Ma Ga Re Sa — slow',min:8},
+  {t:'🎼 Alankaar',d:'Patterns practice karo',min:7},
+  {t:'🎙 Record & Review',d:'Apni awaaz record karo, suno',min:5},
+  {t:'🙏 Cool Down',d:'Hum karo, relax karo',min:3},
+];
+
+const JOURNEY=[
+  {icon:'🌱',title:'Shishya (Beginner)',desc:'Breathing + basic swars',color:'#6bcb77',done:false,current:true},
+  {icon:'🎶',title:'Abhyasi (Practitioner)',desc:'Aroha-Avroha + rhythm',color:'#4d96ff',done:false,current:false},
+  {icon:'🎼',title:'Sadhak (Seeker)',desc:'Alankaar + swar accuracy',color:'#ffd93d',done:false,current:false},
+  {icon:'🪔',title:'Raag Seeker',desc:'First complete raag',color:'#ff9f40',done:false,current:false},
+  {icon:'🎤',title:'Sur Sadhak (Advanced)',desc:'Full voice mastery',color:'#9b59b6',done:false,current:false},
+  {icon:'✨',title:'Voice Creator Pro',desc:'Performance + content level',color:'#d4a847',done:false,current:false},
+];
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let audioCtx=null, oscillators=[], tanpuraRunning=false, tanpuraOscs=[], tanpuraInterval=null;
+let selectedTanpuraFreq=277.18;
+let micStream=null, micAnalyser=null, micRunning=false, vizInterval=null;
+let timerSecs=900, timerTotal=900, timerRunning=false, timerInt=null, selectedTimerMin=15;
+let breathRunning=false, breathTimeout=null, breathStep=0;
+let recording=false, mediaRecorder=null, recChunks=[], recTimerInt=null, recSecs=0;
+let recordings=[], stats={streak:1,min:0,level:1,sessions:0};
+
+// ══════════════════════════════════════════════════
+// AUDIO UTILS
+// ══════════════════════════════════════════════════
+function getCtx(){if(!audioCtx||audioCtx.state==='closed')audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+function playTone(freq,dur=2,vol=0.3,type='sine'){
+  const ctx=getCtx();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type=type;osc.frequency.value=freq;
+  gain.gain.setValueAtTime(0,ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(vol,ctx.currentTime+0.05);
+  gain.gain.setValueAtTime(vol,ctx.currentTime+dur-0.15);
+  gain.gain.linearRampToValueAtTime(0,ctx.currentTime+dur);
+  osc.connect(gain);gain.connect(ctx.destination);osc.start();
+  setTimeout(()=>{try{osc.stop();}catch(e){}},dur*1000+100);
+  return {osc,gain};
+}
+
+function stopAllAudio(){
+  oscillators.forEach(o=>{try{o.stop();}catch(e){}});oscillators=[];
+  stopTanpura();
+  document.getElementById('now-bar').classList.remove('show');
+  clearInterval(vizInterval);
+}
+
+function showNowPlaying(swar){
+  document.getElementById('now-bar').classList.add('show');
+  document.getElementById('np-swar').textContent=swar.id+' ('+swar.d+') — '+swar.m.split('—')[0].trim();
+  document.getElementById('np-freq').textContent=swar.f+' Hz • '+swar.ch;
+  animateNowViz();
+}
+
+let nvInt=null;
+function animateNowViz(){
+  clearInterval(nvInt);
+  const bars=document.querySelectorAll('#now-viz .now-vbar');
+  nvInt=setInterval(()=>{bars.forEach(b=>b.style.height=(3+Math.random()*24)+'px');},100);
+}
+
+// ══════════════════════════════════════════════════
+// TANPURA
+// ══════════════════════════════════════════════════
+function setTanpuraKey(key,freq,el){
+  document.querySelectorAll('.tkey').forEach(k=>k.classList.remove('active'));
+  el.classList.add('active');selectedTanpuraFreq=freq;
+  if(tanpuraRunning){stopTanpura();startTanpura();}
+}
+
+function toggleTanpura(){
+  if(tanpuraRunning){stopTanpura();}else{startTanpura();}
+}
+
+function startTanpura(){
+  tanpuraRunning=true;
+  document.getElementById('tanpura-btn').textContent='⏹ Tanpura Band Karo';
+  document.getElementById('tanpura-btn').className='btn stop';
+  const ctx=getCtx();
+  const freqs=[selectedTanpuraFreq,selectedTanpuraFreq*2,selectedTanpuraFreq*1.5,selectedTanpuraFreq*2];
+  const stringIds=['ts1','ts2','ts3','ts4'];
+  let si=0;
+  function pluck(){
+    if(!tanpuraRunning)return;
+    const f=freqs[si%4];
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    const filt=ctx.createBiquadFilter();
+    filt.type='lowpass';filt.frequency.value=800;
+    osc.type='triangle';osc.frequency.value=f;
+    gain.gain.setValueAtTime(0,ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.12,ctx.currentTime+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.8);
+    osc.connect(filt);filt.connect(gain);gain.connect(ctx.destination);
+    osc.start();setTimeout(()=>{try{osc.stop();}catch(e){}},2000);
+    // animate string
+    const str=document.getElementById(stringIds[si%4]);
+    if(str){str.classList.add('active');setTimeout(()=>str.classList.remove('active'),400);}
+    si++;
+    tanpuraInterval=setTimeout(pluck,500);
+  }
+  pluck();
+}
+
+function stopTanpura(){
+  tanpuraRunning=false;
+  clearTimeout(tanpuraInterval);
+  document.getElementById('tanpura-btn').textContent='▶ Tanpura Chalao';
+  document.getElementById('tanpura-btn').className='btn gold';
+}
+
+function updateTanpuraSpeed(v){
+  document.getElementById('speed-val').textContent=parseFloat(v).toFixed(1)+'x';
+}
+
+// ══════════════════════════════════════════════════
+// SWAR PLAYBACK
+// ══════════════════════════════════════════════════
+function playSwar(id){
+  stopAllAudio();
+  const s=SWARS.find(x=>x.id===id);if(!s)return;
+  const ctx=getCtx();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type='sine';osc.frequency.value=s.f;
+  gain.gain.setValueAtTime(0,ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(0.35,ctx.currentTime+0.1);
+  gain.gain.setValueAtTime(0.35,ctx.currentTime+6);
+  gain.gain.linearRampToValueAtTime(0,ctx.currentTime+7);
+  osc.connect(gain);gain.connect(ctx.destination);osc.start();
+  oscillators=[osc];
+  setTimeout(()=>{try{osc.stop();}catch(e){};document.getElementById('now-bar').classList.remove('show');},7200);
+  // highlight button
+  document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('playing'));
+  document.querySelector('[data-swar="'+id+'"]')?.classList.add('playing');
+  setTimeout(()=>document.querySelector('[data-swar="'+id+'"]')?.classList.remove('playing'),7000);
+  showNowPlaying(s);
+}
+
+function playSequence(freqs,dur=1.0){
+  stopAllAudio();
+  let t=0;
+  freqs.forEach((f,i)=>{
+    setTimeout(()=>{
+      const ctx=getCtx();
+      const osc=ctx.createOscillator();const gain=ctx.createGain();
+      osc.type='sine';osc.frequency.value=f;
+      gain.gain.setValueAtTime(0,ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.3,ctx.currentTime+0.05);
+      gain.gain.setValueAtTime(0.3,ctx.currentTime+dur*0.8);
+      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+dur);
+      osc.connect(gain);gain.connect(ctx.destination);osc.start();
+      setTimeout(()=>{try{osc.stop();}catch(e){}},dur*1000+100);
+      oscillators=[osc];
+      // highlight
+      const idx=i<7?i:0;
+      document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('playing'));
+      document.querySelectorAll('.sw-btn')[i<7?i:7-1]?.classList.add('playing');
+      const nb=document.getElementById('now-bar');nb.classList.add('show');
+      document.getElementById('np-swar').textContent=i<7?SWARS[i].id+'('+SWARS[i].d+')':'Sa↑';
+      document.getElementById('np-freq').textContent=f.toFixed(1)+' Hz';
+      animateNowViz();
+    },t);
+    t+=dur*1000+100;
+  });
+  setTimeout(()=>{document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('playing'));document.getElementById('now-bar').classList.remove('show');},t+200);
+}
+
+function playAroha(){
+  const fs=SWARS.map(s=>s.f);fs.push(523.25);
+  playSequence(fs,1.1);
+}
+function playAvroha(){
+  const fs=[...SWARS.map(s=>s.f)].reverse();fs.unshift(523.25);
+  playSequence(fs,1.1);
+}
+function playAlankaar(){
+  const fs=SWARS.map(s=>s.f);
+  const pattern=[];
+  for(let i=0;i<fs.length-2;i++){pattern.push(fs[i],fs[i+1],fs[i+2],fs[i+1]);}
+  playSequence(pattern,0.6);
+}
+
+// ══════════════════════════════════════════════════
+// MIC / PITCH DETECTION
+// ══════════════════════════════════════════════════
+async function toggleMic(){
+  if(micRunning){stopMic();return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    micStream=stream;micRunning=true;
+    document.getElementById('mic-btn').classList.add('listening');
+    document.getElementById('mic-label').textContent='Listening... Sur nikalo!';
+    const ctx=getCtx();
+    micAnalyser=ctx.createAnalyser();
+    micAnalyser.fftSize=2048;
+    const src=ctx.createMediaStreamSource(stream);
+    src.connect(micAnalyser);
+    detectPitch();
+    animatePracticeViz();
+  }catch(e){
+    document.getElementById('mic-label').textContent='Mic permission nahi mili 😔';
+  }
+}
+
+function stopMic(){
+  micRunning=false;
+  if(micStream)micStream.getTracks().forEach(t=>t.stop());
+  document.getElementById('mic-btn').classList.remove('listening');
+  document.getElementById('mic-label').textContent='Tap to Start Listening';
+  document.getElementById('pm-feedback').textContent='Mic on karo aur sur nikalo...';
+  clearInterval(vizInterval);
+  const bars=document.querySelectorAll('#practice-viz .vbar');
+  bars.forEach(b=>b.style.height='4px');
+}
+
+function detectPitch(){
+  if(!micRunning||!micAnalyser)return;
+  const buf=new Float32Array(micAnalyser.fftSize);
+  micAnalyser.getFloatTimeDomainData(buf);
+  const freq=autoCorrelate(buf,getCtx().sampleRate);
+  if(freq>80&&freq<1200){
+    updatePitchMeter(freq);
+  }
+  requestAnimationFrame(detectPitch);
+}
+
+function autoCorrelate(buf,sampleRate){
+  let SIZE=buf.length,rms=0;
+  for(let i=0;i<SIZE;i++)rms+=buf[i]*buf[i];
+  rms=Math.sqrt(rms/SIZE);
+  if(rms<0.01)return -1;
+  let r1=0,r2=SIZE-1,thres=0.2;
+  for(let i=0;i<SIZE/2;i++){if(Math.abs(buf[i])<thres){r1=i;break;}}
+  for(let i=1;i<SIZE/2;i++){if(Math.abs(buf[SIZE-i])<thres){r2=Size-i;break;}}
+  buf=buf.slice(r1,r2);SIZE=buf.length;
+  const c=new Float32Array(SIZE).fill(0);
+  for(let i=0;i<SIZE;i++)for(let j=0;j<SIZE-i;j++)c[i]+=buf[j]*buf[j+i];
+  let d=0;while(c[d]>c[d+1])d++;
+  let maxVal=-1,maxPos=-1;
+  for(let i=d;i<SIZE;i++){if(c[i]>maxVal){maxVal=c[i];maxPos=i;}}
+  let T0=maxPos;
+  const x1=c[T0-1],x2=c[T0],x3=c[T0+1];
+  const a=(x1+x3-2*x2)/2,b=(x3-x1)/2;
+  if(a)T0=T0-b/(2*a);
+  return sampleRate/T0;
+}
+
+function updatePitchMeter(freq){
+  const needle=document.getElementById('pm-needle');
+  const feedback=document.getElementById('pm-feedback');
+  const noteEl=document.getElementById('pitch-note');
+  // Find closest swar
+  let closest=SWARS[0],minDiff=Infinity;
+  SWARS.forEach(s=>{
+    const d=Math.abs(s.f-freq);
+    if(d<minDiff){minDiff=d;closest=s;}
+  });
+  noteEl.textContent=closest.id+' ('+closest.d+')';
+  const targetFreq=closest.f;
+  const cents=1200*Math.log2(freq/targetFreq);
+  // Map cents to position (-50 to +50 cents = 0 to 100%)
+  const pct=Math.max(0,Math.min(100,(cents+50)/100*100));
+  needle.style.left=pct+'%';
+  const absCents=Math.abs(cents);
+  if(absCents<10){
+    feedback.style.background='rgba(74,222,128,0.1)';feedback.style.color='var(--green)';
+    feedback.textContent='✅ Perfect! '+closest.id+' pe bilkul sahi ho!';
+  }else if(absCents<25){
+    feedback.style.background='rgba(212,168,71,0.1)';feedback.style.color='var(--gold)';
+    feedback.textContent=cents>0?'⬇️ Thoda neeche aao':'⬆️ Thoda upar jao';
+  }else{
+    feedback.style.background='rgba(248,113,113,0.1)';feedback.style.color='var(--red)';
+    feedback.textContent=cents>0?'⬇️ Bahut upar ho — neeche aao':'⬆️ Bahut neeche ho — upar jao';
+  }
+}
+
+function animatePracticeViz(){
+  const bars=document.querySelectorAll('#practice-viz .vbar');
+  const int=setInterval(()=>{
+    if(!micRunning){clearInterval(int);bars.forEach(b=>b.style.height='4px');return;}
+    if(micAnalyser){
+      const d=new Uint8Array(micAnalyser.frequencyBinCount);
+      micAnalyser.getByteFrequencyData(d);
+      bars.forEach((b,i)=>{
+        const v=d[Math.floor(i*d.length/bars.length)]/255;
+        b.style.height=Math.max(4,v*36)+'px';
+      });
+    }
+  },80);
+}
+
+// ══════════════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════════════
+const TIMER_OPTS=[{l:'15 min\nBasic',m:15},{l:'20 min\nRegular',m:20},{l:'30 min\nAdvanced',m:30},{l:'45 min\nPro',m:45},{l:'60 min\nMaster',m:60},{l:'90 min\nGuru',m:90}];
+
+function renderTimerPresets(){
+  const w=document.getElementById('timer-presets');
+  w.innerHTML=TIMER_OPTS.map((o,i)=>`<div class="tpreset${i===0?' sel':''}" onclick="setTimerMin(${o.m},this)"><span class="tv">${o.m}</span>${o.l.split('\n')[1]}</div>`).join('');
+}
+
+function setTimerMin(m,el){
+  document.querySelectorAll('.tpreset').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');selectedTimerMin=m;timerSecs=m*60;timerTotal=m*60;
+  timerRunning=false;clearInterval(timerInt);
+  document.getElementById('timer-start-btn').textContent='▶ Start';
+  updateTimerUI();
+}
+
+function toggleTimer(){
+  if(!timerRunning){
+    timerRunning=true;document.getElementById('timer-start-btn').textContent='⏸ Pause';
+    timerInt=setInterval(()=>{
+      timerSecs--;
+      if(timerSecs<=0){
+        timerSecs=0;timerRunning=false;clearInterval(timerInt);
+        document.getElementById('timer-start-btn').textContent='▶ Start';
+        document.getElementById('timer-phase-lbl').textContent='🎉 Shabash! Complete!';
+        stats.min+=selectedTimerMin;stats.sessions++;
+        updateStatsUI();
+        playTone(523,0.3,0.2);setTimeout(()=>playTone(659,0.3,0.2),350);setTimeout(()=>playTone(784,0.5,0.2),700);
+      }
+      updateTimerUI();
+    },1000);
+  }else{
+    timerRunning=false;clearInterval(timerInt);
+    document.getElementById('timer-start-btn').textContent='▶ Resume';
+  }
+}
+
+function resetTimer(){
+  clearInterval(timerInt);timerRunning=false;
+  timerSecs=selectedTimerMin*60;timerTotal=timerSecs;
+  document.getElementById('timer-start-btn').textContent='▶ Start';
+  document.getElementById('timer-phase-lbl').textContent='Ready';
+  updateTimerUI();
+}
+
+function updateTimerUI(){
+  const m=Math.floor(timerSecs/60),s=timerSecs%60;
+  document.getElementById('timer-disp').textContent=pad(m)+':'+pad(s);
+  const pct=timerTotal>0?(timerSecs/timerTotal):0;
+  const circ=427;
+  document.getElementById('timer-ring-fg').style.strokeDashoffset=circ*(1-pct);
+  const phases=['🫁 Breathing','🎵 Tanpura','🎤 Sa Practice','⬆️ Aroha','⬇️ Avroha','🎼 Alankaar','🎙 Record'];
+  const pi=Math.floor((1-pct)*phases.length);
+  if(timerRunning)document.getElementById('timer-phase-lbl').textContent=phases[Math.min(pi,phases.length-1)];
+}
+
+function pad(n){return String(n).padStart(2,'0');}
+
+// Breathing
+const BREATH=[{t:'Inhale',d:4000,c:'inhale'},{t:'Hold',d:4000,c:'hold'},{t:'Exhale',d:8000,c:'exhale'}];
+function toggleBreath(){
+  if(breathRunning){
+    breathRunning=false;clearTimeout(breathTimeout);
+    document.getElementById('breath-toggle').textContent='Start Breathing';
+    document.getElementById('breath-ring').className='breath-ring';
+    document.getElementById('breath-ring').textContent='Ready';
+    document.getElementById('breath-phase-lbl').textContent='4-4-8 technique — best for voice';
+  }else{breathRunning=true;document.getElementById('breath-toggle').textContent='Stop';breathStep=0;runBreath();}
+}
+function runBreath(){
+  if(!breathRunning)return;
+  const b=BREATH[breathStep%3];
+  document.getElementById('breath-ring').className='breath-ring '+b.c;
+  document.getElementById('breath-ring').textContent=b.t;
+  document.getElementById('breath-phase-lbl').textContent=b.t+' — '+b.d/1000+' second';
+  breathStep++;breathTimeout=setTimeout(runBreath,b.d);
+}
+
+// ══════════════════════════════════════════════════
+// RECORDING
+// ══════════════════════════════════════════════════
+async function toggleRecording(){
+  if(recording){stopRecording();return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder=new MediaRecorder(stream);recChunks=[];
+    mediaRecorder.ondataavailable=e=>recChunks.push(e.data);
+    mediaRecorder.onstop=saveRecording;
+    mediaRecorder.start();recording=true;recSecs=0;
+    document.getElementById('rec-btn').textContent='⏹ Stop Recording';
+    document.getElementById('rec-btn').className='btn stop';
+    recTimerInt=setInterval(()=>{recSecs++;document.getElementById('rec-timer-disp').textContent=pad(Math.floor(recSecs/60))+':'+pad(recSecs%60);},1000);
+    animateRecViz(stream);
+  }catch(e){alert('Mic permission chahiye!');}
+}
+
+function stopRecording(){
+  if(mediaRecorder&&recording){mediaRecorder.stop();mediaRecorder.stream.getTracks().forEach(t=>t.stop());}
+  recording=false;clearInterval(recTimerInt);
+  document.getElementById('rec-btn').textContent='🎙 Record Shuru Karo';
+  document.getElementById('rec-btn').className='btn';
+  document.getElementById('rec-timer-disp').textContent='00:00';
+  const bars=document.querySelectorAll('#rec-viz .vbar');bars.forEach(b=>b.style.height='4px');
+}
+
+function saveRecording(){
+  const blob=new Blob(recChunks,{type:'audio/webm'});
+  const url=URL.createObjectURL(blob);
+  const now=new Date();
+  const name=`Riyaz ${now.getDate()}/${now.getMonth()+1} — ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  recordings.unshift({name,url,dur:recSecs,id:Date.now()});
+  renderRecordings();
+}
+
+function animateRecViz(stream){
+  const ctx=getCtx();
+  const an=ctx.createAnalyser();an.fftSize=256;
+  const src=ctx.createMediaStreamSource(stream);src.connect(an);
+  const bars=document.querySelectorAll('#rec-viz .vbar');
+  const int=setInterval(()=>{
+    if(!recording){clearInterval(int);return;}
+    const d=new Uint8Array(an.frequencyBinCount);an.getByteFrequencyData(d);
+    bars.forEach((b,i)=>{const v=d[Math.floor(i*d.length/bars.length)]/255;b.style.height=Math.max(4,v*36)+'px';});
+  },80);
+}
+
+function renderRecordings(){
+  const w=document.getElementById('rec-list');
+  if(!recordings.length){w.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;">Koi recording nahi hai abhi.<br>Upar se record karo! 🎤</div>';return;}
+  w.innerHTML=recordings.map(r=>`
+    <div class="rec-item">
+      <button class="rec-play" onclick="playRec('${r.id}')">▶</button>
+      <div class="rec-info">
+        <div class="rn">${r.name}</div>
+        <div class="rd">${pad(Math.floor(r.dur/60))}:${pad(r.dur%60)} • ${new Date(r.id).toLocaleDateString('hi-IN')}</div>
+        <div class="rec-wave">${Array(12).fill(0).map(()=>`<div class="rec-bar" style="height:${4+Math.random()*16}px"></div>`).join('')}</div>
+      </div>
+      <a href="${r.url}" download="${r.name}.webm" style="color:var(--muted);font-size:16px;text-decoration:none;padding:4px;">⬇️</a>
+      <button class="rec-del" onclick="delRec(${r.id})">🗑</button>
+    </div>
+  `).join('');
+}
+
+function playRec(id){const r=recordings.find(x=>x.id==id);if(r){const a=new Audio(r.url);a.play();}}
+function delRec(id){recordings=recordings.filter(x=>x.id!=id);renderRecordings();}
+
+// ══════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ══════════════════════════════════════════════════
+function renderSwarGrid(){
+  const w=document.getElementById('swar-grid');
+  w.innerHTML=SWARS.map(s=>`
+    <button class="sw-btn" data-swar="${s.id}" style="background:${s.c}20;color:${s.c};border-color:${s.c}50" onclick="playSwar('${s.id}')">
+      ${s.id}<span class="d">${s.d}</span>
+    </button>
+  `).join('');
+}
+
+function renderSwarDetails(){
+  const w=document.getElementById('swar-details-wrap');
+  w.innerHTML=SWARS.map(s=>`
+    <div class="swar-detail" style="background:${s.c}08;border-color:${s.c}25">
+      <div class="sd-header">
+        <div class="sd-icon" style="background:${s.c}18;color:${s.c}">${s.id}<span class="sd">${s.d}</span></div>
+        <div class="sd-meta">
+          <h3 style="color:${s.c}">${s.id} — ${s.d}</h3>
+          <div class="sm">${s.m}</div>
+          <div class="sc" style="color:${s.c}">${s.ch}</div>
+        </div>
+      </div>
+      <ul class="sd-tips">${s.tips.map(t=>`<li>${t}</li>`).join('')}</ul>
+      <div class="sd-exercise"><div class="et">Daily Exercise</div><div class="ec">${s.ex}</div></div>
+      <button class="play-swar-btn" style="color:${s.c};border-color:${s.c}60" onclick="playSwar('${s.id}')">▶ ${s.f} Hz Play Karo</button>
+    </div>
+  `).join('');
+}
+
+function renderLessons(){
+  const w=document.getElementById('lessons-wrap');
+  w.innerHTML=LESSONS.map((l,i)=>`
+    <div class="lesson-card ${l.unlocked?(l.progress===100?'done-lesson':l.progress>0?'active-lesson':''):''} ${!l.unlocked?'':''}${l.progress>0?'active-lesson':''}" 
+         style="--lc:${l.color};${!l.unlocked?'opacity:0.5;cursor:not-allowed;':''}"
+         onclick="${l.unlocked?`toggleLesson('lesson-d-${i}')`:''}"
+    >
+      <div class="lesson-icon" style="background:${l.color}20">${l.icon}</div>
+      <div class="lesson-info">
+        <h4>${l.title}</h4>
+        <p>${l.desc}</p>
+        ${l.progress>0?`<div class="lesson-prog"><div class="lesson-prog-fill" style="width:${l.progress}%"></div></div>`:''}
+      </div>
+      <div class="lesson-badge">${!l.unlocked?'🔒':l.progress===100?'✅':'▶'}</div>
+    </div>
+    ${l.unlocked&&l.steps.length?`
+    <div class="lesson-detail" id="lesson-d-${i}">
+      ${l.steps.map((s,j)=>`
+        <div class="lesson-step">
+          <div class="step-num">${j+1}</div>
+          <div class="step-text">${s.t}<br><span style="color:var(--muted);font-size:11px">${s.d}</span>${s.h?`<span class="hint">💡 ${s.h}</span>`:''}
+          </div>
+        </div>
+      `).join('')}
+      <button class="btn" style="margin-top:10px;width:100%;justify-content:center" onclick="markLessonDone(${i})">✅ Ye Step Complete Kiya!</button>
+    </div>`:''}
+  `).join('');
+}
+
+function toggleLesson(id){
+  const el=document.getElementById(id);
+  if(el)el.classList.toggle('open');
+}
+function markLessonDone(i){
+  LESSONS[i].progress=Math.min(100,LESSONS[i].progress+25);
+  if(LESSONS[i].progress>=100&&i+1<LESSONS.length)LESSONS[i+1].unlocked=true;
+  renderLessons();
+}
+
+function renderPhaseGuide(){
+  const w=document.getElementById('phase-guide');
+  w.innerHTML=PHASES.map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0">${i+1}</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:500">${p.t}</div><div style="font-size:10px;color:var(--muted)">${p.d}</div></div>
+      <div style="font-size:10px;color:var(--muted);background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:10px">${p.min}m</div>
+    </div>
+  `).join('');
+}
+
+function renderWeekProgress(){
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const today=new Date().getDay();
+  const w=document.getElementById('week-progress');
+  w.innerHTML=days.map((d,i)=>`
+    <div class="day-box${i===today?' today':''}${i<today?' done':''}">
+      <div class="dn">${d}</div>
+      <div class="dm">${i<today?'✅':i===today?'🎯':'⭕'}</div>
+    </div>
+  `).join('');
+}
+
+function renderSkillBars(){
+  const skills=[
+    {n:'Sur Pakad',v:30,c:'#ff6b6b'},
+    {n:'Breathing',v:60,c:'#6bcb77'},
+    {n:'Aroha',v:20,c:'#4d96ff'},
+    {n:'Avroha',v:10,c:'#e056d8'},
+    {n:'Alankaar',v:5,c:'#ffd93d'},
+    {n:'Taal',v:15,c:'#9b59b6'},
+  ];
+  const w=document.getElementById('skill-bars');
+  w.innerHTML=skills.map(s=>`
+    <div class="skill-row">
+      <div class="skill-name">${s.n}</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:${s.v}%;background:linear-gradient(90deg,${s.c},${s.c}aa)"></div></div>
+      <div class="skill-pct">${s.v}%</div>
+    </div>
+  `).join('');
+}
+
+function renderJourney(){
+  const w=document.getElementById('journey-list');
+  w.innerHTML=JOURNEY.map(j=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div style="width:40px;height:40px;border-radius:12px;background:${j.color}20;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${j.icon}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:${j.current?j.color:'var(--text)'}">${j.title}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:1px">${j.desc}</div>
+      </div>
+      <div style="font-size:16px">${j.done?'✅':j.current?'🎯':'🔒'}</div>
+    </div>
+  `).join('');
+}
+
+function updateStatsUI(){
+  document.getElementById('s-streak').textContent=stats.streak;
+  document.getElementById('s-min').textContent=stats.min;
+  document.getElementById('s-level').textContent=stats.level;
+  document.getElementById('s-sessions').textContent=stats.sessions;
+}
+
+// ══════════════════════════════════════════════════
+// PLAN CHECKBOX
+// ══════════════════════════════════════════════════
+function toggleCheck(el){
+  el.classList.toggle('done');
+  el.textContent=el.classList.contains('done')?'✓':'';
+  const t=el.nextElementSibling;
+  if(t)t.classList.toggle('strike');
+}
+
+// ══════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════
+function showTab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.app').scrollTop=0;
+}
+
+function showTabNav(id,btn){
+  // sync tabs too
+  const tabs=document.querySelectorAll('.tab');
+  const tabMap={home:0,tanpura:1,practice:2,lessons:3,timer:4,records:5,progress:6};
+  tabs.forEach(t=>t.classList.remove('active'));
+  tabs[tabMap[id]]?.classList.add('active');
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.app').scrollTop=0;
+}
+
+// Guru messages rotation
+const GURU_MSGS=[
+  'Namaste! 🙏 Pehle tanpura chalao, phir apna Sa pakdo. Har practice isi se shuru hoti hai.',
+  'Aaj ka tip: Sur pakadna force se nahi hota. Throat relax rakho, awaaz apne aap aayegi. 🌸',
+  'Roz ek ghante ki practice 6 mahine mein tumhari awaaz badal degi. Bas ruko mat! ⭐',
+  'Galti karo, ruko mat. Galti hi seekhna hai — sahi karna baad mein aayega. 💪',
+  'Seene mein resonance feel karo — yeh sign hai ki tum sahi direction mein ho. 🎵',
+];
+let gmIdx=0;
+setInterval(()=>{
+  gmIdx=(gmIdx+1)%GURU_MSGS.length;
+  document.getElementById('guru-home-msg').textContent=GURU_MSGS[gmIdx];
+},8000);
+
+// Daily tip rotation
+const TIPS=[
+  '"Sa" ek aisa sur hai jo kabhi badlta nahi. Roz subah sirf 5 minute Sa pe aawaz laga ke raho. Itne se hi tumhara base strong hoga. 🎵',
+  'Breathing aur voice ek hain. Jis din saans deepa hogi, us din Sur bhi gehra hoga. 🫁',
+  'Tanpura suno — roze 2 minute sirf sun ke shuru karo. Yeh tumhare "sur ka kaaan" develop karega. 👂',
+  'Apni recording suno bina judge kiye. Sirf observe karo. Woh jaankari hi tumhara next lesson hai. 🎙',
+  'Sa Re Ga Ma — ek baar slow, ek baar thoda fast. Speed consistency se aati hai, force se nahi. ⚡',
+];
+let tipIdx=0;
+document.getElementById('daily-tip').innerHTML='<strong style="color:var(--text)">'+TIPS[tipIdx].split('—')[0]+'</strong>'+TIPS[tipIdx].substring(TIPS[tipIdx].indexOf('—'));
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+renderSwarGrid();
+renderSwarDetails();
+renderLessons();
+renderTimerPresets();
+renderPhaseGuide();
+renderWeekProgress();
+renderSkillBars();
+renderJourney();
+updateStatsUI();
+updateTimerUI();
+renderRecordings();
+</script>
+</body>
+</html>
